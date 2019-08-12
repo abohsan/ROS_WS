@@ -1,0 +1,53 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+  <m_joint name="chassis__${link_01_name}" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 0 0" origin_xyz="0.2 0 0.05"
+           parent="chassis" child="link_01"
+           limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
+           
+  <m_link_mesh name="${link_01_name}"
+              origin_rpy="0 0 0" origin_xyz="0 0 0"
+              mass="157.633"
+              ixx="13.235" ixy="0" ixz="0"
+              iyy="13.235" iyz="0"
+              izz="9.655"
+              meshfile="package://mini_jaguar_pkg/meshes/armBase.stl"
+              meshscale="0.0003 0.0003 0.0003" /> 
+
+
+  <m_joint name="${link_01_name}__${link_06_name}" type="revolute"
+           axis_xyz="0 1 0"
+           origin_rpy="0 3.14 0" origin_xyz="0 0 0.13"
+           parent="${link_01_name}" child="${link_06_name}"
+           limit_e="1000" limit_l="0" limit_u="3.14" limit_v="0.5" />
+           
+  <m_link_mesh name="${link_06_name}"
+              origin_rpy="0 0 0" origin_xyz="0 -0.0145 -0.0145"
+              mass="157.633"
+              ixx="13.235" ixy="0" ixz="0"
+              iyy="13.235" iyz="0"
+              izz="9.655"
+              meshfile="package://mini_jaguar_pkg/meshes/arm.stl"
+              meshscale="0.004 0.0029 0.003" /> 
+
+
+
+  <m_joint name="${link_06_name}__${link_07_name}" type="revolute"
+           axis_xyz="0 1 0"
+           origin_rpy="3.14 3.14 0" origin_xyz="0.44 0 -0.035"
+           parent="${link_06_name}" child="${link_07_name}"
+           limit_e="1000" limit_l="0" limit_u="3.14" limit_v="0.5" />
+           
+  <m_link_mesh name="${link_07_name}"
+              origin_rpy="0 0 0" origin_xyz="0 -0.0145 -0.0145"
+              mass="157.633"
+              ixx="13.235" ixy="0" ixz="0"
+              iyy="13.235" iyz="0"
+              izz="9.655"
+              meshfile="package://mini_jaguar_pkg/meshes/arm.stl"
+              meshscale="0.004 0.0029 0.003" /> 
+
+
+</robot>
