@@ -8,6 +8,7 @@
 
   <xacro:include filename="$(find mini_jaguar_pkg)/parts/wheels.xacro" />
   <xacro:include filename="$(find mini_jaguar_pkg)/parts/arm.xacro" />
+  <xacro:include filename="$(find mini_jaguar_pkg)/parts/fins.xacro" />
   
   <!-- END - Include -->
   

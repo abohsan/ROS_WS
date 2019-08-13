@@ -36,12 +36,12 @@
 
   <m_joint name="${link_06_name}__${link_07_name}" type="revolute"
            axis_xyz="0 1 0"
-           origin_rpy="3.14 3.14 0" origin_xyz="0.44 0 -0.035"
+           origin_rpy="3.14 3.14 0" origin_xyz="0.44 0 -0.015"
            parent="${link_06_name}" child="${link_07_name}"
            limit_e="1000" limit_l="0" limit_u="3.14" limit_v="0.5" />
            
   <m_link_mesh name="${link_07_name}"
-              origin_rpy="0 0 0" origin_xyz="0 -0.0145 -0.0145"
+              origin_rpy="0 0 0" origin_xyz="0 -0.0145 -0.03"
               mass="157.633"
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
@@ -49,5 +49,61 @@
               meshfile="package://mini_jaguar_pkg/meshes/arm.stl"
               meshscale="0.004 0.0029 0.003" /> 
 
+  <m_joint name="${link_07_name}__${link_08_name}" type="revolute"
+           axis_xyz="0 1 0"
+           origin_rpy="0 0 0" origin_xyz="0.43 0.025 -0.0145"
+           parent="${link_07_name}" child="${link_08_name}"
+           limit_e="1000" limit_l="-1" limit_u="3.14" limit_v="0.5" />
+           
+  <m_link_mesh name="${link_08_name}"
+              origin_rpy="0 0 0" origin_xyz="-0.15  -0.0145 -0.0145"
+              mass="157.633"
+              ixx="13.235" ixy="0" ixz="0"
+              iyy="13.235" iyz="0"
+              izz="9.655"
+              meshfile="package://mini_jaguar_pkg/meshes/arm.stl"
+              meshscale="0.0025 0.0029 0.003" /> 
+
+  <m_joint name="${link_08_name}__${link_09_name}" type="revolute"
+           axis_xyz="0 0 1"
+           origin_rpy="0 1.57079 0" origin_xyz="0.13 0 0"
+           parent="${link_08_name}" child="${link_09_name}"
+           limit_e="1000" limit_l="0" limit_u="3.14" limit_v="0.5" />
+           
+  <m_link_cylinder name="${link_09_name}" 
+              origin_rpy="0 0 0" origin_xyz="0 0 0"
+              mass="157.633"
+              ixx="13.235" ixy="0" ixz="0"
+              iyy="13.235" iyz="0"
+              izz="9.655"
+              radius='.015' length='0.01'/>  
+
+  <m_joint name="${link_09_name}__${link_10_name}" type="revolute"
+           axis_xyz="1 0 0"
+           origin_rpy="0 0 0" origin_xyz="0 0.018 0.0"
+           parent="${link_09_name}" child="${link_10_name}"
+           limit_e="1000" limit_l="0" limit_u="0.32" limit_v="0.5" />
+           
+   <m_link_box name="${link_10_name}" 
+              origin_rpy="0 0 0" origin_xyz="0 0 0.02"
+              mass="157.633"
+              ixx="13.235" ixy="0" ixz="0"
+              iyy="13.235" iyz="0"
+              izz="9.655"
+              size='0.02 0.005 0.05'/>  
+
+  <m_joint name="${link_09_name}__${link_11_name}" type="revolute"
+           axis_xyz="1 0 0"
+           origin_rpy="0 0 3.14" origin_xyz="0 -0.018 0.0"
+           parent="${link_09_name}" child="${link_11_name}"
+           limit_e="1000" limit_l="0" limit_u="0.32" limit_v="0.5" />
+           
+   <m_link_box name="${link_11_name}" 
+              origin_rpy="0 0 0" origin_xyz="0 0 0.02"
+              mass="157.633"
+              ixx="13.235" ixy="0" ixz="0"
+              iyy="13.235" iyz="0"
+              izz="9.655"
+              size='0.02 0.005 0.05'/>  
 
 </robot>
