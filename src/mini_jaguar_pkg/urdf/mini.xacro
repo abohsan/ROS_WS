@@ -8,11 +8,11 @@
 
   <xacro:include filename="$(find mini_jaguar_pkg)/parts/wheels.xacro" />
   <xacro:include filename="$(find mini_jaguar_pkg)/parts/arm.xacro" />
-  <xacro:include filename="$(find mini_jaguar_pkg)/parts/fins.xacro" />
+  <xacro:include filename="$(find mini_jaguar_pkg)/parts/fins.xacro" /> 
   
   <!-- END - Include -->
   
-  <link name='chassis'>
+  <link name='${link_00_name}'>
     <pose>0 0 0.1 0 0 0</pose>
 
     <inertial>
@@ -24,22 +24,17 @@
           izz="0.1"
       />
     </inertial>
-
     <collision name='collision'>
       <geometry>
         <box size=".1 .2 .1"/>
       </geometry>
     </collision>
-
     <visual name='chassis_visual'>
       <origin xyz="0 0 0" rpy=" 0 0 0"/>
       <geometry>
         <box size=".6858 .4064 .1524"/>
       </geometry>
     </visual>
-  </link>
-              
+  </link>    
 
-
-  
 </robot>

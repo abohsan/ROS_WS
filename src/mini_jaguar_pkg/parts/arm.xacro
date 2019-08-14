@@ -1,10 +1,10 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <m_joint name="chassis__${link_01_name}" type="revolute"
+  <m_joint name="${link_00_name}__${link_01_name}" type="revolute"
            axis_xyz="0 0 1"
            origin_rpy="0 0 0" origin_xyz="0.2 0 0.05"
-           parent="chassis" child="link_01"
+           parent="${link_00_name}" child="${link_01_name}"
            limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
            
   <m_link_mesh name="${link_01_name}"
