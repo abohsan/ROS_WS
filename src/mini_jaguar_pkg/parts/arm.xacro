@@ -16,7 +16,6 @@
               meshfile="package://mini_jaguar_pkg/meshes/armBase.stl"
               meshscale="0.0003 0.0003 0.0003" /> 
 
-
   <m_joint name="${link_01_name}__${link_06_name}" type="revolute"
            axis_xyz="0 1 0"
            origin_rpy="0 3.14 0" origin_xyz="0 0 0.13"
@@ -31,8 +30,6 @@
               izz="9.655"
               meshfile="package://mini_jaguar_pkg/meshes/arm.stl"
               meshscale="0.004 0.0029 0.003" /> 
-
-
 
   <m_joint name="${link_06_name}__${link_07_name}" type="revolute"
            axis_xyz="0 1 0"
