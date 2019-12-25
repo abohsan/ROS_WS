@@ -1,0 +1,4 @@
+<launch>
+	<node name="static_transform_publisher" type="static_transform_publisher" pkg="tf" output="screen" args="0 0 0 0 0 0  odom base_link 100" />
+	<node name="static_transform_publisher2" type="static_transform_publisher" pkg="tf" output="screen" args="0 0 0 0 0 0 base_link  laser 100" />
+</launch>

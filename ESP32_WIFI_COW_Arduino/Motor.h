@@ -4,9 +4,12 @@
 class Motor {
   public:
     Motor();
-    Motor( int , int , int , int, int );
+    Motor( int ,int,int, int , int , int, int );
     void move(int);
+    void Direction(bool, bool);
   private:
+    int b_dir;
+    int f_dir;
     int channel;
     int freq;
     int resolution;

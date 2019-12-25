@@ -9,8 +9,13 @@
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mini_jaguar_pkg)/launch/config.rviz" />
 
   <!-- send joint values -->
-  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+ <node name="state_publisher" pkg="mini_jaguar_pkg" type="state_publisher"></node> 
+
+
+
+   <!-- send joint values -->
+  <!-- <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
     <param name="use_gui" value="True"/>
-  </node>
+  </node> -->
 
 </launch>

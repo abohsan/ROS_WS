@@ -9,6 +9,7 @@ class Robot {
   public:
     Robot(Motor m1, Motor m2);
     void movee(int,int);
+    void setDir(bool, bool, bool, bool);
     void halt();
   private:
     Motor motor_1;

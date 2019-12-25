@@ -193,7 +193,9 @@ include_directories(
 #############
 ## Testing ##
 #############
-
+include_directories(include ${catkin_INCLUDE_DIRS})
+add_executable(state_publisher src/state_publisher.cpp)
+target_link_libraries(state_publisher ${catkin_LIBRARIES})
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_mini_jaguar_pkg.cpp)
 # if(TARGET ${PROJECT_NAME}-test)

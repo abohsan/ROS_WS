@@ -1,9 +1,14 @@
 #include <WiFi.h>
 #include "ros.h"
 #include "tasks.h"
+#include "Encoder.h"
 
 const char* ssid     = "Jaguar";
 const char* password = "Crawlerx01";
+
+// run the following command to start the TCP connection
+// rosrun rosserial_python serial_node.py tcp
+
 
 IPAddress server(10, 0, 0, 203);
 
@@ -14,6 +19,9 @@ int frontLight = 33;
 // motor pins
 
 void setup() {
+ pinMode(led, OUTPUT);
+ digitalWrite(led, LOW);
+  
   Serial.begin(115200);
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -27,10 +35,10 @@ void setup() {
   Serial.println("WiFi connected.");
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
-  pinMode(led, OUTPUT);
 
 
-  rosSetting(server);
+//  encoder_setUp();
+  ros_setup(server);
 }
 
 void loop()

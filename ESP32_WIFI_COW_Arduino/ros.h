@@ -2,6 +2,8 @@
 #include <geometry_msgs/Twist.h>
 #include "Arduino.h"
 #include "Robot.h"
+#include "pub.h"
+
 
 #define PWMRANGE 254
 #define PWM_MIN 0
@@ -12,7 +14,7 @@ void onTwist(const geometry_msgs::Twist &msg);
 bool _connected = false;
 
 ros::NodeHandle node;
-ros::Subscriber<geometry_msgs::Twist> sub("/cmd_vel", &onTwist);
+ros::Subscriber<geometry_msgs::Twist> sub("cmd_vel", &onTwist);
 
 const uint8_t R_PWM = 25;
 const uint8_t R_BACK = 16;
@@ -23,12 +25,13 @@ const uint8_t L_FORW = 0;
 const uint8_t L_PWM = 26;
 
 int freq = 10000;
-Motor myMotorR( R_PWM, 1, 0 , freq, 8);
-Motor myMotorL( L_PWM, 1, 1 , freq, 8 );
-Robot myRobot(myMotorR, myMotorL);
+Motor myMotorR( R_PWM, R_BACK, R_FORW, 1, 0 , freq, 8);
+Motor myMotorL( L_PWM, L_BACK, L_FORW, 1, 1 , freq, 8 );
+
+Robot myRobot(myMotorL, myMotorR);
 
 void onTwist(const geometry_msgs::Twist &msg) {
- if (!_connected)
+  if (!_connected)
   {
     stopRobot();
     return;
@@ -46,34 +49,24 @@ void onTwist(const geometry_msgs::Twist &msg) {
   // Then map those values to PWM intensities. PWMRANGE = full speed, while PWM_MIN = the minimal amount of power at which the motors begin moving.
   uint16_t lPwm = mapPwm(fabs(l), PWM_MIN, PWMRANGE);
   uint16_t rPwm = mapPwm(fabs(r), PWM_MIN, PWMRANGE);
-
- // Set direction pins and PWM
-  digitalWrite(L_FORW, l > 0);
-  digitalWrite(L_BACK, l < 0);
-  digitalWrite(R_FORW, r > 0);
-  digitalWrite(R_BACK, r < 0);
-  myRobot.movee(lPwm,rPwm);
+  myRobot.setDir(l < 0, l > 0, r < 0, r > 0 );
+  myRobot.movee(rPwm, lPwm );
 }
- 
-void rosSetting(IPAddress server) {
-    node.getHardware()->setConnection(server);
-    node.initNode();
-    node.subscribe(sub);
-       pinMode(L_FORW, OUTPUT);
-    pinMode(L_FORW, OUTPUT);
-    pinMode(R_FORW, OUTPUT);
-    pinMode(R_BACK, OUTPUT);
+
+void ros_setup(IPAddress server) {
+  node.getHardware()->setConnection(server);
+  node.initNode();
+  node.subscribe(sub);
 }
 
 bool rosConnected()
 {
   bool connected = node.connected();
-
   if (_connected != connected)
   {
     _connected = connected;
     Serial.println(connected ? "ROS connected" : "ROS disconnected");
-  } 
+  }
   return connected;
 }
 
@@ -84,9 +77,6 @@ float mapPwm(float x, float out_min, float out_max)
 
 void stopRobot()
 {
-  digitalWrite(L_FORW, 0);
-  digitalWrite(L_BACK, 0);
-  digitalWrite(R_FORW, 0);
-  digitalWrite(R_BACK, 0);
-  myRobot.movee(0,0);
+  myRobot.setDir(0, 0, 0, 0);
+  myRobot.movee(0, 0);
 }
