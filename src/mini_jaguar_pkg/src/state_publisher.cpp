@@ -47,8 +47,8 @@ int main(int argc, char **argv)
         joint_state.position[5] = 0;
         joint_state.position[6] = 0;
         joint_state.position[7] = 0;
-        joint_state.position[8] = 1.6;
-        joint_state.position[9] = 0;
+        joint_state.position[8] = 0;
+        joint_state.position[9] = 1.57;
         joint_state.position[10] = 0;
         joint_state.position[11] = 0;
         joint_state.position[12] = 0;

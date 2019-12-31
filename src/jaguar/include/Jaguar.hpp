@@ -16,12 +16,15 @@ public:
 	Jaguar(const std::string &ip, int port);
 	~Jaguar();
 
-	void moveWheels(int left, int right); // left and right wheels
+	void moveWheels(int left, int right); // left and right wheels of Jaguar
+	void moveFlipers(double frontLeft, double frontRight, double backLeft, double backRight); // First, Second, Third and Fourth Flipers
+	void driveFlipDegree(double frontLeft, double frontRight, double backLeft, double backRight); 
 	void releaseWheels();
 	void releaseFrontFlipers();
 	void releaseRearFlipers();
 	void stopWheels();
 	void secureWheels();
+	bool connect();
 
 
 	// start of Auxliliary method
@@ -40,13 +43,34 @@ public:
 	void driveRearFlipDegree(double);
 	void driveFrontFlipDegree(double);
 
-	void processRobotData();
-	void dealWithPackage(std::string , int);
+ 	void getFrontFlipAngle();
+	void getRearFlipAngle();
 
+	void processRobotData();
+	// void dealWithPackage(std::string , int);
+ 	double ad2Temperature(int value); 
 private:
 	tcpSocket *ipTCP;
-
 	MotorData flipArmMotor[4];
+	// future work
+	bool is_acceleration_reach_the_limit(int currentSpeed, int aimedSpeed);
+	int adjust_Speed(int aimedSpeed);
+	// bool checkFlipers();
+	IMUData imuData;
+	GPSData gpsData;
+	MotorData motorData[8];
+	MotorBoardData motorBoardData[4];
+	void right_Front_Fliper_Degree(double degree);
+	void left_Front_Fliper_Degree(double degree);
+	void right_Back_Fliper_Degree(double degree);
+	void left_back_Fliper_Degree(double degree);
+
+
+
+	int current_left_Wheel_Speed;
+	int current_right_Wheel_Speed;
+	int MAX_WHEELS_ACCEL;
+	
 };
 
 #endif

@@ -32,5 +32,18 @@ static std::vector<std::string> split(std::string original, std::string prefix, 
     }
     return result;
 }
+static std::vector<std::string> split(std::string original, std::string splitBy)
+{
+
+    std::vector<std::string> result;
+    std::stringstream ss(original);
+    while (ss.good())
+    {
+        std::string substr;
+        getline(ss, substr, ',');
+        result.push_back(substr);
+    }
+    return result;
+}
 
 #endif

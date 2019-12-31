@@ -9,7 +9,7 @@
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mini_jaguar_pkg)/launch/config.rviz" />
 
   <!-- send joint values -->
- <node name="state_publisher" pkg="mini_jaguar_pkg" type="state_publisher"></node> 
+ <!-- <node name="state_publisher" pkg="mini_jaguar_pkg" type="state_publisher"></node>  -->
 
 
 

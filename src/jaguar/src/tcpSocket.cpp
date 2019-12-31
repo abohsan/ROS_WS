@@ -31,19 +31,23 @@ bool tcpSocket::disconnect() {
 	}
 	return true;
 }
+bool tcpSocket::available() {
+
+	
+	return true;
+}
 
 bool tcpSocket::send(const std::string &msg) {
 	if (::send(m_socket , msg.c_str() , msg.size() , 0) < 0) {
 		warn("send message faild");
 		return false;
-	}
-	// std::cout << "sent: " << msg.c_str()  << std::endl; 
+	} 
 	::fsync(m_socket);
 	return true;
 }
 
 std::string tcpSocket::read() {
-	static char buffer[1024];
+	static char buffer[512];
 	if (::read( m_socket , buffer, 512) < 0) {
 		warn("read message failed");
 		return std::string();

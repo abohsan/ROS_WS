@@ -13,6 +13,7 @@ class tcpSocket {
 		bool send(const std::string &msg);
 		std::string read();
     	bool connect();
+    	bool available();
     protected:
         void warn(const std::string &msg) const;
 		bool disconnect();

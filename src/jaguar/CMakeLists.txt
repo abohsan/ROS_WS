@@ -152,12 +152,14 @@ add_library(Jaguar src/Jaguar.cpp)
 
 add_executable(keypressed keypress/keypressed.cpp)
 add_executable(jaguar_node src/main.cpp)
+add_executable(mainNoRos keypress/mainNoRos.cpp)
 
 
 target_link_libraries(Jaguar ${catkin_LIBRARIES} tcpSocket )
 target_link_libraries(jaguar_node  ${catkin_LIBRARIES} Nodes  Jaguar)
 target_link_libraries(keypressed ${catkin_LIBRARIES})
 target_link_libraries(keypressed -lX11)
+target_link_libraries(mainNoRos -lX11  Jaguar tcpSocket)
 
 add_executable(my_joy_node joy/my_joy_node.cpp)
 target_link_libraries(my_joy_node ${catkin_LIBRARIES})

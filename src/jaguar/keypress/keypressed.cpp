@@ -34,7 +34,87 @@ int main(int argc, char **argv)
   {
     std_msgs::String msg;
     std::stringstream toBeSent;
-    if (key_is_pressed(XK_Left))
+   if (key_is_pressed(XK_Control_L) && key_is_pressed(XK_1) && key_is_pressed(XK_Down))
+    {
+      if (sent != "f1d")
+      {
+        toBeSent << "f1d";
+        sent = "f1d";
+        msg.data = toBeSent.str();
+        chatter_pub.publish(msg);
+      }
+    }
+    else if (key_is_pressed(XK_Control_L) && key_is_pressed(XK_1) && key_is_pressed(XK_Up))
+    {
+      if (sent != "f1u")
+      {
+        toBeSent << "f1u";
+        sent = "f1u";
+        msg.data = toBeSent.str();
+        chatter_pub.publish(msg);
+      }
+    } 
+    else if (key_is_pressed(XK_Control_L) && key_is_pressed(XK_2) && key_is_pressed(XK_Down))
+    {
+      if (sent != "f2d")
+      {
+        toBeSent << "f2d";
+        sent = "f2d";
+        msg.data = toBeSent.str();
+        chatter_pub.publish(msg);
+      }
+    }
+    else if (key_is_pressed(XK_Control_L) && key_is_pressed(XK_2) && key_is_pressed(XK_Up))
+    {
+      if (sent != "f2u")
+      {
+        toBeSent << "f2u";
+        sent = "f2u";
+        msg.data = toBeSent.str();
+        chatter_pub.publish(msg);
+      }
+    } 
+    else if (key_is_pressed(XK_Control_L) && key_is_pressed(XK_3) && key_is_pressed(XK_Down))
+    {
+      if (sent != "f3d")
+      {
+        toBeSent << "f3d";
+        sent = "f3d";
+        msg.data = toBeSent.str();
+        chatter_pub.publish(msg);
+      }
+    }
+    else if (key_is_pressed(XK_Control_L) && key_is_pressed(XK_3) && key_is_pressed(XK_Up))
+    {
+      if (sent != "f3u")
+      {
+        toBeSent << "f3u";
+        sent = "f3u";
+        msg.data = toBeSent.str();
+        chatter_pub.publish(msg);
+      }
+    } 
+    else if (key_is_pressed(XK_Control_L) && key_is_pressed(XK_Down) && key_is_pressed(XK_5) )
+    {
+      if (sent != "f5d")
+      {
+        toBeSent << "f5d";
+        sent = "f5d";
+        msg.data = toBeSent.str();
+        chatter_pub.publish(msg);
+      }
+    }
+    else if (key_is_pressed(XK_Control_L) && key_is_pressed(XK_Up) && key_is_pressed(XK_5) )
+    {
+      if (sent != "f5u")
+      {
+        toBeSent << "f5u";
+        sent = "f5u";
+        msg.data = toBeSent.str();
+        chatter_pub.publish(msg);
+      }
+    }
+     else if (key_is_pressed(XK_Left))
     {
       if (sent != "l")
       {
@@ -73,12 +153,12 @@ int main(int argc, char **argv)
         msg.data = toBeSent.str();
         chatter_pub.publish(msg);
       }
-    }else if (key_is_pressed(XK_1))
+    }else if (key_is_pressed(XK_9))
     {
-      if (sent != "1")
+      if (sent != "9")
       {
-        toBeSent << "1";
-        sent = "1";
+        toBeSent << "9";
+        sent = "9";
         msg.data = toBeSent.str();
         chatter_pub.publish(msg);
       }
