@@ -6,6 +6,15 @@
 #include <string>
 #include <sstream>
 
+static double degreesToRadians(double angle_in_degrees){
+	return angle_in_degrees * (PI/180.0);
+}
+
+
+static double radiansToDegrees(double angle_in_radians){
+	return angle_in_radians * (180.0/PI);
+}
+
 static bool startWith(std::string original, std::string prefix)
 {
     if (original.substr(0, prefix.size()) == prefix)

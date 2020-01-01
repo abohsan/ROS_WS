@@ -6,11 +6,12 @@
 #include <std_msgs/String.h>
 #include <geometry_msgs/Twist.h>
 #include <boost/thread.hpp>
-#include <jaguar/IMUInfo.h>
+
 #include <jaguar/GPSInfo.h>
 #include <jaguar/MotorInfoArray.h>
 #include <jaguar/MotorBoardInfoArray.h>
-#include <jaguar/FlipMotorCmd.h>
+#include <jaguar/FlipMotor.h>
+#include <jaguar/IMUInfo.h>
 
 #include "Jaguar.hpp"
 #include "variables.hpp"
@@ -35,7 +36,7 @@ public:
      */
    void keyboard_Callback(const std_msgs::String::ConstPtr &msg);
    void moveWheels_callback(const geometry_msgs::Twist::ConstPtr &msg);
-   void flipers_sub_Callback(const jaguar::FlipMotorCmd::ConstPtr &msg);
+   void flipers_sub_Callback(const jaguar::FlipMotor::ConstPtr &msg);
    /**
      * Timer callback function
      * @param event

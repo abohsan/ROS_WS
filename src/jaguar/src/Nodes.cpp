@@ -94,36 +94,36 @@ void Nodes::keyboard_Callback( const std_msgs::String::ConstPtr &msg)
     }
     else if (msg->data == "f1u")
     {
-        jaguar->moveFlipers(7500,0,0,0);
+        jaguar->moveFlipers_degree(10,10,10,10);
     }
     else if (msg->data == "f1d")
     {
-       jaguar->moveFlipers(-7000,0,0,0);
+       jaguar->moveFlipers_degree(-10,-10,-10,-10);
     }
     else if (msg->data == "f2u")
     {
-        jaguar->moveFlipers(0,7000,0,0);
+        jaguar->go_To_Flipers_degree(0,0,0,0);
     }
-    else if (msg->data == "f2d")
-    {
-        jaguar->moveFlipers(0,-7000,0,0);
-    }
-    else if (msg->data == "f3u")
-    {
-        jaguar->moveFlipers(0,0,7000,0);
-    }
-    else if (msg->data == "f3d")
-    {
-        jaguar->moveFlipers(0,0,-7000,0);
-    }
-    else if (msg->data == "f5u")
-    {
-        jaguar->moveFlipers(0,0,0,7000);
-    }
-    else if (msg->data == "f5d")
-    {
-        jaguar->moveFlipers(0,0,0,-7000);
-    }
+    // else if (msg->data == "f2d")
+    // {
+    //     jaguar->moveFlipers_degree(0,-7000,0,0);
+    // }
+    // else if (msg->data == "f3u")
+    // {
+    //     jaguar->moveFlipers_degree(0,0,7000,0);
+    // }
+    // else if (msg->data == "f3d")
+    // {
+    //     jaguar->moveFlipers_degree(0,0,-7000,0);
+    // }
+    // else if (msg->data == "f5u")
+    // {
+    //     jaguar->moveFlipers_degree(0,0,0,7000);
+    // }
+    // else if (msg->data == "f5d")
+    // {
+    //     jaguar->moveFlipers_degree(0,0,0,-7000);
+    // }
     else
     {
         ROS_INFO_STREAM("KeyPressed : " << msg->data);
@@ -148,11 +148,11 @@ void Nodes::moveWheels_callback(const geometry_msgs::Twist::ConstPtr &msg)
     // sleep for 200ms
     loop_rate.sleep();
 }
-void Nodes::flipers_sub_Callback(const jaguar::FlipMotorCmd::ConstPtr &msg)
+void Nodes::flipers_sub_Callback(const jaguar::FlipMotor::ConstPtr &msg)
 {
-    msg->leftFrontCmd;
-    jaguar->driveFlipDegree(msg->rightFrontCmd, msg->leftFrontCmd, msg->rightRearCmd, msg->leftRearCmd);
-    
+    jaguar->moveFlipers_degree(msg->rightFront, msg->leftFront, msg->rightRear, msg->leftRear);
+    jaguar->go_To_Flipers_degree(msg->go_to_rightFront, msg->go_to_leftFront, msg->go_to_rightRear, msg->go_to_leftRear);
+
     
     ros::Rate loop_rate(5);
     // sleep for 200ms
