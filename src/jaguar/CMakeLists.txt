@@ -129,6 +129,7 @@ catkin_package(
 ## Build ##
 ###########
 
+
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
@@ -145,22 +146,30 @@ include_directories(
 
 # add_dependencies(jaguar_node jaguar_generate_messages_cpp)
 
+add_executable(state_pub_from_Jgaur src/state_pub_from_Jgaur.cpp)
+target_link_libraries(state_pub_from_Jgaur ${catkin_LIBRARIES})
+# add_dependencies(state_pub_from_Jgaur jaguar_generate_messages_cpp)
 
+
+add_library(Arm src/Arm.cpp)
 add_library(tcpSocket src/tcpSocket.cpp)
 add_library(Nodes src/Nodes.cpp)
 add_library(Jaguar src/Jaguar.cpp)
+add_library(file src/File.cpp)
 
 add_executable(keypressed keypress/keypressed.cpp)
 add_executable(jaguar_node src/main.cpp)
+add_executable(test0 src/test0.cpp)
 add_executable(mainNoRos keypress/mainNoRos.cpp)
 add_executable(my_joy_node joy/my_joy_node.cpp)
 add_executable(joy_node joy/joy_node.cpp)
 
+target_link_libraries(test0 file )
 target_link_libraries(Jaguar ${catkin_LIBRARIES} tcpSocket )
-target_link_libraries(jaguar_node  ${catkin_LIBRARIES} Nodes  Jaguar)
+target_link_libraries(jaguar_node  ${catkin_LIBRARIES} Nodes  Jaguar file Arm)
 target_link_libraries(keypressed ${catkin_LIBRARIES})
 target_link_libraries(keypressed -lX11)
-target_link_libraries(mainNoRos -lX11  Jaguar tcpSocket)
+target_link_libraries(mainNoRos -lX11  Jaguar tcpSocket file)
 target_link_libraries(my_joy_node ${catkin_LIBRARIES})
 target_link_libraries(joy_node ${catkin_LIBRARIES})
 

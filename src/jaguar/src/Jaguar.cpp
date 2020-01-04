@@ -6,20 +6,40 @@ double resTable[25] = {114660,84510,62927,47077,35563,27119,20860,16204,12683,10
 double tempTable[25] = { -20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100 };
 double FULLAD = 4095;
 
+
 Jaguar::Jaguar(const std::string &ip, int port){
 	ipTCP = new tcpSocket(ip, port);
-	
+	File::getInstance();
  for (int i = 0; i < 4; i++){
-    flipArmMotor[i].angle = 0;
+    flipArmMotor[i].angle = File::getInstance()->getFlipers(i);
     flipArmMotor[i].preEncoder = 0;
     flipArmMotor[i].encoderPos = 0;
     flipArmMotor[i].iniFlag = false;
   }
 
-	MAX_WHEELS_ACCEL = 10;
-	
+	MAX_WHEELS_ACCEL = 30;
+	current_left_Wheel_Speed = 0;
+    current_right_Wheel_Speed = 0;
+
 	ipTCP->connect();
 }
+
+double Jaguar::getFrontRightFliperAngle(){
+    return flipArmMotor[1].angle;
+}
+
+double Jaguar::getFrontLeftFliperAngle(){
+    return flipArmMotor[0].angle;
+}
+
+double Jaguar::getBackRightFliperAngle(){
+    return flipArmMotor[3].angle;
+}
+
+double Jaguar::getBackLeftFliperAngle(){
+    return flipArmMotor[2].angle;
+}
+
 Jaguar::~Jaguar(){
 	delete ipTCP;
 }
@@ -30,33 +50,63 @@ bool Jaguar::connect(){
 
 bool Jaguar::is_acceleration_reach_the_limit(int currentSpeed, int aimedSpeed){
 	int speedDiff = currentSpeed - aimedSpeed;
-	if ( (speedDiff < MAX_WHEELS_ACCEL ) && ( speedDiff >  (- MAX_WHEELS_ACCEL))) return false;
-	return true;
+	if ( (speedDiff < MAX_WHEELS_ACCEL ) && ( speedDiff >  (- MAX_WHEELS_ACCEL))) {
+        return false;
+    }else{
+       return true; 
+    }
 }
 
-int Jaguar::adjust_Speed( int aimedSpeed){
-	if(aimedSpeed > 0){
-				return current_left_Wheel_Speed + MAX_WHEELS_ACCEL ;
+int Jaguar::adjust_left_Speed( int aimedSpeed){
+
+	if(aimedSpeed > current_left_Wheel_Speed ){
+		return ( current_left_Wheel_Speed + MAX_WHEELS_ACCEL ) ;
 	}else{
-				return current_left_Wheel_Speed - MAX_WHEELS_ACCEL;
+		return ( current_left_Wheel_Speed - MAX_WHEELS_ACCEL );
 	}
 }
 
-void Jaguar::moveWheels(int left, int right)
-{
-	if(is_acceleration_reach_the_limit(current_left_Wheel_Speed , left)) 
-			left = adjust_Speed(left);
-	
-	if(is_acceleration_reach_the_limit(current_right_Wheel_Speed , right))
-			right = adjust_Speed(right);
-	
-	std::stringstream left_;
-	left_ << left;
-	std::string left_s = left_.str();
+int Jaguar::adjust_right_Speed( int aimedSpeed){
+	if(aimedSpeed > current_right_Wheel_Speed ){
+		return ( current_right_Wheel_Speed + MAX_WHEELS_ACCEL ) ;
+	}else{
+		return ( current_right_Wheel_Speed - MAX_WHEELS_ACCEL );
+	}
+}
+void Jaguar::moveWheels(int left,int right){
 
-	std::stringstream right_;
-	right_ << right;
-	std::string right_s = right_.str();
+
+
+    int i = 0;
+    int l_left  = left;
+	int l_right = right;
+        while((current_left_Wheel_Speed != left|| current_right_Wheel_Speed != right) ){
+
+
+            if(is_acceleration_reach_the_limit(current_right_Wheel_Speed , right)) { //
+                l_right = adjust_right_Speed(right);
+                current_right_Wheel_Speed = l_right;
+            }else{
+                l_right = right;
+                current_right_Wheel_Speed = right;
+            }
+            
+            if(is_acceleration_reach_the_limit(current_left_Wheel_Speed , left)) { //
+                l_left = adjust_left_Speed(left);
+                current_left_Wheel_Speed = l_left;
+            }else{
+                l_left = left;
+                current_left_Wheel_Speed = left;
+            }
+            usleep(5000);
+            print(i++);
+            moveWheels_1(l_left,l_right);
+        }
+}
+
+
+void Jaguar::moveWheels_1(int left, int right)
+{
 
 	if ((left == 0) && (right == 0))
 		stopWheels();
@@ -70,9 +120,10 @@ void Jaguar::moveWheels(int left, int right)
 	}
 	else
 	{
-		ipTCP->send(("MMW !M " + left_s + " " + right_s + "\r\n"));
+		ipTCP->send(("MMW !M " + toString(left) + " " + toString(right) + "\r\n"));
 	}
 }
+
 void Jaguar::stopWheels()
 {
 	ipTCP->send("MMW !M 0 0\r\n");
@@ -192,92 +243,81 @@ std::string Jaguar::read()
 
 void Jaguar::move_right_Front_Fliper_Degree(double radians_Angle)
 {
- if ( ( radians_Angle + flipArmMotor[1].angle )  < (PI/2) && 
-  ( radians_Angle + flipArmMotor[1].angle )  > (-PI/2) ){
+ if ( ( radians_Angle + flipArmMotor[1].angle )  < (MAX_FLIPERS_ANGLE) && 
+  ( radians_Angle + flipArmMotor[1].angle )  > (-MAX_FLIPERS_ANGLE) ){
+    
     std::string strCmd;
     int targetPos = 0;
-    std::stringstream targetPos_;
-    std::string targetPos_s;
 
     targetPos = int( - radians_Angle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
-
-	targetPos_ << targetPos;
-	targetPos_s = targetPos_.str();
-    strCmd = "MM2 !PR 2 " + targetPos_s + "\r\n";
+	
+    strCmd = "MM2 !PR 2 " +  toString(targetPos) + "\r\n";
     if (ipTCP != nullptr){
         // if (m_tcpRobot->isWritable()){
             ipTCP->send(strCmd);
             flipArmMotor[1].angle += radians_Angle;
+            File::getInstance()->setFlipers(flipArmMotor[1].angle, 1);
         // }
+        
     }
  }
 } 
+
 void Jaguar::move_left_Front_Fliper_Degree(double radians_Angle)
 {
-    if ( ( radians_Angle + flipArmMotor[0].angle )  < (PI/2) && 
-     ( radians_Angle + flipArmMotor[0].angle )  > (-PI/2) ){
+    if ( ( radians_Angle + flipArmMotor[0].angle )  < (MAX_FLIPERS_ANGLE) && 
+     ( radians_Angle + flipArmMotor[0].angle )  > (-MAX_FLIPERS_ANGLE) ){
 
         std::string strCmd;
         int targetPos = 0;
-        std::stringstream targetPos_;
-        std::string targetPos_s;
-        
         targetPos = int(radians_Angle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
-
-        targetPos_ << targetPos;
-        targetPos_s = targetPos_.str();
-        strCmd = "MM2 !PR 1 " + targetPos_s + "\r\n";
+        strCmd = "MM2 !PR 1 " +  toString(targetPos) + "\r\n";
         if (ipTCP != nullptr){
             // if (m_tcpRobot->isWritable()){
                 ipTCP->send(strCmd);
                 flipArmMotor[0].angle += radians_Angle;
+                File::getInstance()->setFlipers(flipArmMotor[0].angle, 0);
             // }
         }
     }
-    
- 
-
 } 
+
 void Jaguar::move_right_Back_Fliper_Degree(double radians_Angle)
 {
-    if ( ( radians_Angle + flipArmMotor[3].angle )  < (PI/2) && 
-     ( radians_Angle + flipArmMotor[3].angle )  > (-PI/2) ){
+    if ( ( radians_Angle + flipArmMotor[3].angle )  < (MAX_FLIPERS_ANGLE) && 
+     ( radians_Angle + flipArmMotor[3].angle )  > (-MAX_FLIPERS_ANGLE) ){
 
         std::string strCmd;
         int targetPos = 0;
-        std::stringstream targetPos_;
-        std::string targetPos_s;
         targetPos = int(radians_Angle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
-        targetPos_ << targetPos;
-        targetPos_s = targetPos_.str();
-        strCmd = "MM3 !PR 2 " + targetPos_s + "\r\n";
+       
+        strCmd = "MM3 !PR 2 " +  toString(targetPos) + "\r\n";
         if (ipTCP != nullptr){
             // if (m_tcpRobot->isWritable()){
                 ipTCP->send(strCmd);
                 flipArmMotor[3].angle += radians_Angle;
+                File::getInstance()->setFlipers(flipArmMotor[3].angle, 3);
             // }
         }
     }
 
 } 
+
 void Jaguar::move_left_back_Fliper_Degree(double radians_Angle)
 {
-    if ( ( radians_Angle + flipArmMotor[2].angle ) < (PI/2) &&
-     ( radians_Angle + flipArmMotor[2].angle ) > (-PI/2) ){
+    if ( ( radians_Angle + flipArmMotor[2].angle ) < (MAX_FLIPERS_ANGLE) &&
+     ( radians_Angle + flipArmMotor[2].angle ) > (-MAX_FLIPERS_ANGLE) ){
         std::string strCmd;
         int targetPos = 0;
-        std::stringstream targetPos_;
-        std::string targetPos_s;
-        
-    
+
         targetPos = int(-radians_Angle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
-        targetPos_ << targetPos;
-        targetPos_s = targetPos_.str();
-        strCmd = "MM3 !PR 1 " + targetPos_s + "\r\n";
+
+        strCmd = "MM3 !PR 1 " +  toString(targetPos) + "\r\n";
         if (ipTCP != nullptr){
             // if (ipTCP->isWritable()){
                 ipTCP->send(strCmd);
                 flipArmMotor[2].angle += radians_Angle;
+                File::getInstance()->setFlipers(flipArmMotor[2].angle, 2);
             // }
         }
     }
@@ -318,69 +358,7 @@ void Jaguar::go_To_Flipers_degree(double rightFront , double leftFront, double r
     go_to_right_Back_Fliper_Degree( degreesToRadians(rightBack));
     go_to_left_Front_Fliper_Degree( degreesToRadians(leftFront));
 }
-// void Jaguar::driveRearFlipDegree(double targetAngle)
-// {
-//     double deltaAngle;
-//     std::string strCmd;
-//     int targetPos = 0;
-//     targetAngle = targetAngle * M_PI/180;
-//     deltaAngle = targetAngle - flipArmMotor[2].angle;
-//     targetPos = int(-deltaAngle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
 
-//     std::stringstream targetPos_;
-// 	targetPos_ << targetPos;
-// 	std::string targetPos__s = targetPos_.str();
-
-//     strCmd = "MM3 !PR 1 " + targetPos__s + "\r\n";
-//     if (ipTCP != nullptr){
-//         // if (ipTCP->isWritable()){
-//             ipTCP->send(strCmd);
-//         // }
-//     }
-//     deltaAngle = targetAngle - flipArmMotor[3].angle;
-//     targetPos = int(deltaAngle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
-
-// 	targetPos_ << targetPos;
-// 	targetPos__s = targetPos_.str();
-//     strCmd = "MM3 !PR 2 " + targetPos__s + "\r\n";
-//     if (ipTCP != nullptr){
-//         // if (m_tcpRobot->isWritable()){
-//             ipTCP->send(strCmd);
-//         // }
-//     }
-
-// }
-
-// void Jaguar::driveFrontFlipDegree(double targetAngle)
-// {
-//     double deltaAngle;
-//     std::string  strCmd;
-//     int targetPos = 0;
-//     targetAngle = targetAngle * M_PI/180;
-//     deltaAngle = targetAngle - flipArmMotor[0].angle;
-//     targetPos = int(deltaAngle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
-    
-	
-// 	std::stringstream targetPos_ ;
-// 	targetPos_ << targetPos;
-// 	std::string targetPos__s = targetPos_.str();
-	
-// 	strCmd = "MM2 !PR 1 " + targetPos__s + "\r\n";
-//     if (ipTCP != nullptr){
-//         // if (ipTCP->isWritable()){
-//             ipTCP->send(strCmd);
-//         // }
-//     }
-//     deltaAngle = targetAngle - flipArmMotor[1].angle;
-//     targetPos = int(-deltaAngle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
-//     strCmd = "MM2 !PR 2 " + targetPos__s + "\r\n";
-//     if (ipTCP != nullptr){
-//         // if (m_tcpRobot->isWritable()){
-//             ipTCP->send(strCmd);
-//         // }
-//     }
-
-// }
 double Jaguar::ad2Temperature(int adValue)
 {
     //for new temperature sensor
@@ -739,6 +717,71 @@ void Jaguar::getRearFlipAngle()
 //         //publish sensor here
 // //  qnode.publisherMotorData(motorData,8);
 // //        qnode.publisherMotorBoardInfoArray(motorBoardData,4);
+//     }
+
+// }
+
+
+// void Jaguar::driveRearFlipDegree(double targetAngle)
+// {
+//     double deltaAngle;
+//     std::string strCmd;
+//     int targetPos = 0;
+//     targetAngle = targetAngle * M_PI/180;
+//     deltaAngle = targetAngle - flipArmMotor[2].angle;
+//     targetPos = int(-deltaAngle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
+
+//     std::stringstream targetPos_;
+// 	targetPos_ << targetPos;
+// 	std::string targetPos__s = targetPos_.str();
+
+//     strCmd = "MM3 !PR 1 " + targetPos__s + "\r\n";
+//     if (ipTCP != nullptr){
+//         // if (ipTCP->isWritable()){
+//             ipTCP->send(strCmd);
+//         // }
+//     }
+//     deltaAngle = targetAngle - flipArmMotor[3].angle;
+//     targetPos = int(deltaAngle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
+
+// 	targetPos_ << targetPos;
+// 	targetPos__s = targetPos_.str();
+//     strCmd = "MM3 !PR 2 " + targetPos__s + "\r\n";
+//     if (ipTCP != nullptr){
+//         // if (m_tcpRobot->isWritable()){
+//             ipTCP->send(strCmd);
+//         // }
+//     }
+
+// }
+
+// void Jaguar::driveFrontFlipDegree(double targetAngle)
+// {
+//     double deltaAngle;
+//     std::string  strCmd;
+//     int targetPos = 0;
+//     targetAngle = targetAngle * M_PI/180;
+//     deltaAngle = targetAngle - flipArmMotor[0].angle;
+//     targetPos = int(deltaAngle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
+    
+	
+// 	std::stringstream targetPos_ ;
+// 	targetPos_ << targetPos;
+// 	std::string targetPos__s = targetPos_.str();
+	
+// 	strCmd = "MM2 !PR 1 " + targetPos__s + "\r\n";
+//     if (ipTCP != nullptr){
+//         // if (ipTCP->isWritable()){
+//             ipTCP->send(strCmd);
+//         // }
+//     }
+//     deltaAngle = targetAngle - flipArmMotor[1].angle;
+//     targetPos = int(-deltaAngle/(M_PI * 2) * FLIPARM_CIRCLE_CNT);
+//     strCmd = "MM2 !PR 2 " + targetPos__s + "\r\n";
+//     if (ipTCP != nullptr){
+//         // if (m_tcpRobot->isWritable()){
+//             ipTCP->send(strCmd);
+//         // }
 //     }
 
 // }

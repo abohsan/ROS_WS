@@ -12,6 +12,8 @@
 #define LEFTREARFLIP_CMD   30
 #define RIGHTREARFLIP_CMD   30
 #define FLIPARM_CIRCLE_CNT  7600
+#define MAX_FLIPERS_ANGLE  PI/2
+
 struct  MotorData
 {
     int motorPower;

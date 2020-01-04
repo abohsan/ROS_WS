@@ -6,7 +6,7 @@
                 "limitSymbolsToIncludedHeaders": true
             },
             "includePath": [
-                "/home/arc/catkin_ws/devel/include",
+                "/home/arc/ROS_WS/devel/include",
                 "/opt/ros/melodic/include",
                 "/usr/include"
             ],

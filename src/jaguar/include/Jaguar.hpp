@@ -1,3 +1,4 @@
+
 #ifndef __JAGUAR_HPP__
 #define __JAGUAR_HPP__
 
@@ -6,10 +7,13 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <math.h>
+#include <memory>
 
 #include "tcpSocket.hpp"
 #include "variables.hpp"
 #include "shareMethods.hpp"
+#include "File.hpp"
+
 class Jaguar
 {
 public:
@@ -17,6 +21,7 @@ public:
 	~Jaguar();
 
 	void moveWheels(int left, int right); // left and right wheels of Jaguar
+	void moveWheels_1(int left, int right); // left and right wheels of Jaguar
 	void moveFlipers_degree(double frontLeft, double frontRight, double backLeft, double backRight); // First, Second, Third and Fourth Flipers
 	void go_To_Flipers_degree(double frontLeft, double frontRight, double backLeft, double backRight); // First, Second, Third and Fourth Flipers
 	// void driveFlipDegree(double frontLeft, double frontRight, double backLeft, double backRight); 
@@ -46,6 +51,11 @@ public:
 
  	void getFrontFlipAngle();
 	void getRearFlipAngle();
+	double getFrontRightFliperAngle();
+	double getFrontLeftFliperAngle();
+	double getBackRightFliperAngle();
+	double getBackLeftFliperAngle();
+
 
 	void processRobotData();
 	// void dealWithPackage(std::string , int);
@@ -55,7 +65,8 @@ private:
 	MotorData flipArmMotor[4];
 	// future work
 	bool is_acceleration_reach_the_limit(int currentSpeed, int aimedSpeed);
-	int adjust_Speed(int aimedSpeed);
+	int adjust_left_Speed(int aimedSpeed);
+	int adjust_right_Speed(int aimedSpeed);
 	// bool checkFlipers();
 	IMUData imuData;
 	GPSData gpsData;
@@ -76,6 +87,9 @@ private:
 	int current_left_Wheel_Speed;
 	int current_right_Wheel_Speed;
 	int MAX_WHEELS_ACCEL;
+
+
+	
 	
 };
 

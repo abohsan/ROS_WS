@@ -12,9 +12,11 @@
 #include <jaguar/MotorBoardInfoArray.h>
 #include <jaguar/FlipMotor.h>
 #include <jaguar/IMUInfo.h>
+#include <sensor_msgs/JointState.h>
 
 #include "Jaguar.hpp"
 #include "variables.hpp"
+#include "Arm.hpp"
 
 namespace jaguar_ns
 {
@@ -48,8 +50,10 @@ public:
    void publisherGPSInfo(GPSData gpsData);
    void publisherMotorData(MotorData motorData[], int len);
    void publisherMotorBoardInfoArray(MotorBoardData motorBoardData[], int len);
+   void publisherFliperJointStatus();
 
    Jaguar *jaguar;
+   Arm *arm;
    int conn;
    bool isConnected;
    IMUData imuData;
@@ -89,6 +93,7 @@ private:
    ros::Publisher gpsInfo_pub_;
    ros::Publisher motorInfo_pub_;
    ros::Publisher motorboardInfoArray_pub_;
+   ros::Publisher joint_pub;
 
    unsigned int sub1_callback_count_;
    unsigned int sub2_callback_count_;
