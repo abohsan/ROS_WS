@@ -21,7 +21,15 @@ Jaguar::Jaguar(const std::string &ip, int port){
 	current_left_Wheel_Speed = 0;
     current_right_Wheel_Speed = 0;
 
-	ipTCP->connect();
+    print("connecting to Jaguar...");
+    if (ipTCP->connect())
+    {
+        print("Jaguar is connected");
+    }
+    else
+    {
+        print("Failed to connect to Jaguar");
+    }
 }
 
 double Jaguar::getFrontRightFliperAngle(){

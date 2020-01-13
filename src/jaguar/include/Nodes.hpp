@@ -16,7 +16,6 @@
 
 #include "Jaguar.hpp"
 #include "variables.hpp"
-#include "Arm.hpp"
 
 namespace jaguar_ns
 {
@@ -45,6 +44,7 @@ public:
      */
    void ping_timer_callback(const ros::TimerEvent &event);
    void pub_timer_callback(const ros::TimerEvent &event);
+   void pub_timer_arm_callback(const ros::TimerEvent &event);
 
    void publisherIMUData(IMUData imuData);
    void publisherGPSInfo(GPSData gpsData);
@@ -53,7 +53,6 @@ public:
    void publisherFliperJointStatus();
 
    Jaguar *jaguar;
-   Arm *arm;
    int conn;
    bool isConnected;
    IMUData imuData;
@@ -64,6 +63,7 @@ public:
    MotorBoardData motorBoardData[4];
 
 private:
+
    // public ros node handle
    ros::NodeHandle nh_;
    // private ros node handle
@@ -103,9 +103,11 @@ private:
    void processRobotData();
    void dealWithPackage(std::string, int);
 
+ 
    void getFrontFlipAngle();
    void getRearFlipAngle();
    double ad2Temperature(int value);
+
 
 }; // class Nodes
 

@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(jaguar)
+project(arm)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -19,15 +19,14 @@ find_package(catkin REQUIRED COMPONENTS
 # find_package(Boost REQUIRED COMPONENTS system)
 add_message_files(
     FILES
-    GPSInfo.msg
-    IMUInfo.msg
-    MotorInfo.msg
-    MotorInfoArray.msg
-    BaseMotorCmd.msg
-    FlipMotor.msg
-    MotorBoardInfo.msg
-    MotorBoardInfoArray.msg
-  #  myCmd_vel.msg
+    ArmPositionCmd.msg
+    JointAngleCmd.msg
+    MotorCmd.msg
+    ArmMotorInfo.msg
+    ArmMotorInfoArray.msg
+    JointAngle.msg
+    singleJoint.msg
+
  )
 
 ## Uncomment this if the package has a setup.py. This macro ensures
@@ -37,6 +36,7 @@ add_message_files(
 generate_messages(
   DEPENDENCIES
   std_msgs
+
 )
 ################################################
 ## Declare ROS messages, services and actions ##
@@ -146,31 +146,30 @@ include_directories(
 
 # add_dependencies(jaguar_node jaguar_generate_messages_cpp)
 
-add_executable(state_pub_from_Jgaur src/state_pub_from_Jgaur.cpp)
-target_link_libraries(state_pub_from_Jgaur ${catkin_LIBRARIES})
+# add_executable(state_pub_from_Jgaur src/state_pub_from_Jgaur.cpp)
+# target_link_libraries(state_pub_from_Jgaur ${catkin_LIBRARIES})
 # add_dependencies(state_pub_from_Jgaur jaguar_generate_messages_cpp)
 
 
-add_library(tcpSocket src/tcpSocket.cpp)
-add_library(Nodes src/Nodes.cpp)
-add_library(Jaguar src/Jaguar.cpp)
-add_library(file src/File.cpp)
+add_library(Arm_0 src/Arm.cpp)
+add_library(tcpSocket_0 src/tcpSocket.cpp)
+add_library(Nodes_0 src/Nodes.cpp)
+# add_library(Jaguar src/Jaguar.cpp)
+add_library(file_0 src/File.cpp)
 
-add_executable(keypressed keypress/keypressed.cpp)
-add_executable(jaguar_node src/main.cpp)
-add_executable(test0 src/test0.cpp)
-add_executable(mainNoRos keypress/mainNoRos.cpp)
-add_executable(my_joy_node joy/my_joy_node.cpp)
-add_executable(joy_node joy/joy_node.cpp)
+# add_executable(keypressed1 keypress/keypressed.cpp)
+add_executable(arm_node src/main.cpp)
+add_executable(test01 src/test0.cpp)
 
-target_link_libraries(test0 file )
-target_link_libraries(Jaguar ${catkin_LIBRARIES} tcpSocket )
-target_link_libraries(jaguar_node  ${catkin_LIBRARIES} Nodes  Jaguar file)
-target_link_libraries(keypressed ${catkin_LIBRARIES})
-target_link_libraries(keypressed -lX11)
-target_link_libraries(mainNoRos -lX11  Jaguar tcpSocket file)
-target_link_libraries(my_joy_node ${catkin_LIBRARIES})
-target_link_libraries(joy_node ${catkin_LIBRARIES})
+# target_link_libraries(test0 file_0 )
+# target_link_libraries(Jaguar ${catkin_LIBRARIES} tcpSocket )
+# target_link_libraries(arm_node  ${catkin_LIBRARIES} Nodes  Jaguar file Arm)
+target_link_libraries(arm_node  ${catkin_LIBRARIES} Nodes_0  Arm_0  tcpSocket_0 file_0)
+# target_link_libraries(keypressed ${catkin_LIBRARIES})
+# target_link_libraries(keypressed -lX11)
+# target_link_libraries(mainNoRos -lX11  Jaguar tcpSocket file)
+# target_link_libraries(my_joy_node ${catkin_LIBRARIES})
+# target_link_libraries(joy_node ${catkin_LIBRARIES})
 
 # add_dependencies(joyStick jaguar_generate_messages_cpp)
 

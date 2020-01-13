@@ -5,23 +5,70 @@
 #include "variables.hpp"
 #include "shareMethods.hpp"
 #include "File.hpp"
-
-// #include <QObject>
-// #include <QtNetwork>
-// #include <QTimer>
-// #include "protocol.h"
-
+#include <memory>
+namespace arm_ns
+{
 class Arm {
 public:
     Arm();
     ~Arm();
     //    // Controls
-    void connectToRobot1();
-private:
+    void sendPings();
+
+    void motorReleaseAll();
+    void motor1Up();
+    void motor1Down();
+    void j0Go_to_degree(double targetAngle);
+    void j1Go_to_degree(double targetAngle);
+    void j2Go_to_degree(double targetAngle);
+    void j3Go_to_degree(double targetAngle);
+    void j4Go_to_degree(double targetAngle);
+    void move_arm_degree(double joint_0,double joint_1,double joint_2,double joint_3,double joint_4,double joint_5);
+   
+    void j0Go_to_radians(double targetAngle);
+    void j1Go_to_radians(double targetAngle);
+    void j2Go_to_radians(double targetAngle);
+    void j3Go_to_radians(double targetAngle);
+    void j4Go_to_radians(double targetAngle);
+    void move_arm_radians(double joint_0,double joint_1,double joint_2,double joint_3,double joint_4,double joint_5);
+
+    void moveMotor_0(int PWM);
+    void moveMotor_1(int PWM);
+    void moveMotor_2(int PWM);
+    void moveMotor_3(int PWM);
+    void moveMotor_4(int PWM);
+    void moveMotor_5(int PWM);
+
+    // void moveMotor_5(int PWM);
+    // void moveMotor_6(int PWM);
+    
+    //start used by Node class
+    std::string read_ipTCP_1();
+    std::string read_ipTCP_2();
+    std::string read_ipTCP_3();
+    double get_JOINT_INI_ANGLE(int i);
+    int get_MOTOR_NUM();
+    // End used by Node class
+// private:
+    std::string ip_1 ;
+    std::string ip_2 ;
+    int ip_1_port_1 ;
+    int ip_1_port_2  ;
+    int ip_2_port_1 ;
+    int ip_2_port_2  ; // not used
+    std::shared_ptr<tcpSocket> ipTCP_1;
+    std::shared_ptr<tcpSocket> ipTCP_2;
+    std::shared_ptr<tcpSocket> ipTCP_3;
+    std::shared_ptr<tcpSocket> ipTCP_4;  // not used
+    
+    
+
+
+    void connect();
     bool m_motor1Connected;
     bool m_motor1Connected2;
     bool m_allArmMotorState;
-    bool initial;
+    bool pushButtonArmSetIni;
 
     struct MotorDriverData {
         double motAmp1;     // motor1 current value
@@ -56,9 +103,12 @@ private:
         double resolution;
         bool protect;
         double angle;
+        double iangle;
         int iniPos;
-        int limitPos1;
-        int limitPos2;
+        double limitPosStart; // Added By abdul
+        double limitPosEnd;  // Added By abdul
+        double limitPos1;
+        double limitPos2;
         bool stuckFlag;
         int cmdDir;
         int preCmdDir;
@@ -71,17 +121,14 @@ private:
     };
 
     JointMotorData jointMotorData[6];
-    // QTcpSocket *m_tcpRobot1;
-    // QTcpSocket *tcpRobot2;
-    // QTcpSocket *tcpRobot3;
-    // QTcpSocket *tcpRobot4;
 
-    // QTimer m_pingTimer;
-    // QString m_receivedData1;
-    // QString m_receivedData2;
-    // QString m_receivedData3;
 
-    void dealWithPackage1( std::string received);
+ 
+    // std::string m_receivedData1;
+    std::string m_receivedData2;
+    std::string m_receivedData3;
+
+    // void dealWithPackage1( std::string received);
     void dealWithPackage2( std::string received);
     void dealWithPackage3( std::string received);
 
@@ -98,21 +145,16 @@ private:
     double tipAngle;
     bool armIniFlag;
 
-    // Message form MainThread
-    void executeCommand(const char &cmd);
-    // end Message form MainThread
     void cmdSend(int channel,int cmdValue,int motorCtrl);
     void jointAngleCmdSend(int channel,double angle);
 
     void armPosCmdSend(double x, double y, double tipAngle);
-
-    void connectToRobot2();
-    void processRobotData1();
+    // void processRobotData1();
     void processRobotData2();
     void processRobotData3();
-    void sendPing();
-    void motor1Up();
-    void motor1Down();
+    // void sendPing();
+ 
+
     void motor1Stop();
 
     void motor2Up();
@@ -135,12 +177,32 @@ private:
     void motor6Down();
     void motor6Stop();
 
-    void motorReleaseAll();
+ 
     void motorStopAll();
     void sendQuery1();
     void sendQuery2();
     void sendQuery3();
     void sendQuery4();
+
+    double lineEditTipAngle ;
+
+
+    double lineEditArmTargetX ;
+    double lineEditArmTargetY ;
+
+    double lineEditJ1TargetAngle;
+    double lineEditJ2TargetAngle;
+    double lineEditRotateTargetAngle;
+    double lineEditPanTargetAngle;
+    double lineEditTipTargetAngle;
+    
+    std::string lineEditChannel1State;
+    std::string lineEditChannel2State;
+    std::string lineEditChannel3State;
+
+
+
+    
     void j1GoCmd();
     void j2GoCmd();
     void rotateGoCmd();
@@ -149,7 +211,8 @@ private:
     void armPosGoCmd();
     void armResetCmd();
     void armSetIniCmd();
+    void armReleaseInitial();
 
-};
-
+}; // class arm
+}// namespace jaguar_ns
 #endif // ARM_H

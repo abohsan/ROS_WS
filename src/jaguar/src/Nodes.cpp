@@ -8,6 +8,7 @@ namespace jaguar_ns
 int countt = 0;
 double resTable[25] = {114660, 84510, 62927, 47077, 35563, 27119, 20860, 16204, 12683, 10000, 7942, 6327, 5074, 4103, 3336, 2724, 2237, 1846, 1530, 1275, 1068, 899.3, 760.7, 645.2, 549.4};
 double tempTable[25] = {-20, -15, -10, -5, 0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100};
+
 double FULLAD = 4095;
 int pub_periodic_count_2 = 0;
 int pub_periodic_count_3 = 0;
@@ -21,8 +22,11 @@ Nodes::Nodes(const ros::NodeHandle &node_handle,
       sub2_callback_count_(0),
       sub3_callback_count_(0)
 {
+
+    
     jaguar = new Jaguar("192.168.0.60", 10001);
-    arm = new Arm();
+    
+
     conn = 0;
     isConnected = true;
     this->init();
@@ -37,7 +41,6 @@ void Nodes::init()
 
     joint_pub = pnh_.advertise<sensor_msgs::JointState>("/joint_states", 1);
 
-
     keyboard_sub = pnh_.subscribe("/keyboard_command", 1, &Nodes::keyboard_Callback, this);
     cmd_vl_Jaguar = pnh_.subscribe("/cmd_vel", 1, &Nodes::moveWheels_callback, this);
     flipers_sub = pnh_.subscribe("/flipers", 1, &Nodes::flipers_sub_Callback, this);
@@ -49,7 +52,6 @@ void Nodes::init()
 void Nodes::ping_timer_callback(const ros::TimerEvent &event)
 {
     jaguar->sendPing();
-
 }
 void Nodes::pub_timer_callback(const ros::TimerEvent &event)
 {
@@ -57,7 +59,8 @@ void Nodes::pub_timer_callback(const ros::TimerEvent &event)
     publisherFliperJointStatus();
 }
 
-void Nodes::keyboard_Callback( const std_msgs::String::ConstPtr &msg)
+
+void Nodes::keyboard_Callback(const std_msgs::String::ConstPtr &msg)
 {
     // ROS_INFO_STREAM("KeyPressed : " << msg->data);
     if (msg->data == "9")
@@ -104,32 +107,42 @@ void Nodes::keyboard_Callback( const std_msgs::String::ConstPtr &msg)
     }
     else if (msg->data == "f1d")
     {
-       jaguar->moveFlipers_degree(-10,-10,-10,-10);
+           jaguar->moveFlipers_degree(-10,-10,-10,-10);
     }
     else if (msg->data == "f2u")
     {
         jaguar->go_To_Flipers_degree(0,0,0,0);
     }
-    // else if (msg->data == "f2d")
-    // {
-    //     jaguar->moveFlipers_degree(0,-7000,0,0);
-    // }
-    // else if (msg->data == "f3u")
-    // {
-    //     jaguar->moveFlipers_degree(0,0,7000,0);
-    // }
-    // else if (msg->data == "f3d")
-    // {
-    //     jaguar->moveFlipers_degree(0,0,-7000,0);
-    // }
-    // else if (msg->data == "f5u")
-    // {
-    //     jaguar->moveFlipers_degree(0,0,0,7000);
-    // }
-    // else if (msg->data == "f5d")
-    // {
-    //     jaguar->moveFlipers_degree(0,0,0,-7000);
-    // }
+    else if (msg->data == "f2d")
+    {
+        // jaguar->moveFlipers_degree(0,-7000,0,0);
+    }
+
+    else if (msg->data == "f3u")
+    {
+
+    }
+    else if (msg->data == "f3d")
+    {
+    }
+    else if (msg->data == "f5u")
+    {
+    }
+    else if (msg->data == "f5d")
+    {
+    }
+    else if (msg->data == "f6u")
+    {
+    }
+    else if (msg->data == "f6d")
+    {
+    }
+    else if (msg->data == "f7u")
+    {
+    }
+    else if (msg->data == "f7d")
+    {
+    }
     else
     {
         ROS_INFO_STREAM("KeyPressed : " << msg->data);
@@ -158,8 +171,6 @@ void Nodes::flipers_sub_Callback(const jaguar::FlipMotor::ConstPtr &msg)
 {
     jaguar->moveFlipers_degree(msg->rightFront, msg->leftFront, msg->rightRear, msg->leftRear);
     jaguar->go_To_Flipers_degree(msg->go_to_rightFront, msg->go_to_leftFront, msg->go_to_rightRear, msg->go_to_leftRear);
-    
- 
 
     ros::Rate loop_rate(5);
     // sleep for 200ms
@@ -185,8 +196,7 @@ void Nodes::publisherFliperJointStatus()
     joint_state.name[12] = "arm_3__arm_4";
     joint_state.name[13] = "arm_4__griper_1";
     joint_state.name[14] = "arm_4__griper_2";
-        
-        
+
     joint_state.header.stamp = ros::Time::now();
     joint_state.position[0] = 0;
     joint_state.position[1] = 0;
@@ -396,7 +406,6 @@ void Nodes::publisherMotorData(MotorData motorData[], int len)
     motorInfo_pub_.publish(motorInfoArray);
 }
 
-
 void Nodes::dealWithPackage(std::string revData, int len)
 {
 
@@ -427,7 +436,7 @@ void Nodes::dealWithPackage(std::string revData, int len)
     }
     else if (startWith(revData, prefix_2))
     {
-        // GPS 
+        // GPS
         data = split(revData, prefix_2, ',');
         if (data.size() > 9)
         {
@@ -477,7 +486,7 @@ void Nodes::dealWithPackage(std::string revData, int len)
     }
     else if (startWith(revData, "MM"))
     {
-      // motor and driver board data package
+        // motor and driver board data package
         if (startWith(revData, "MM0"))
         {
             index = 0;
@@ -499,7 +508,7 @@ void Nodes::dealWithPackage(std::string revData, int len)
 
         if (startWith(revData, "A="))
         {
-          
+
             //current data
             revData.erase(0, 2);
 
@@ -507,78 +516,78 @@ void Nodes::dealWithPackage(std::string revData, int len)
             motorData[index * 2 + 0].motorAmp = std::stod(data.at(0)) / 10;
             motorData[index * 2 + 1].motorAmp = std::stod(data.at(1)) / 10;
         }
-            else if (startWith(revData, "AI="))
+        else if (startWith(revData, "AI="))
+        {
+            // A/D data, here 3,4 will be motor temperature sensor
+            revData.erase(0, 3);
+            data = split(revData, ':');
+            motorData[index * 2 + 0].motorTemp = ad2Temperature(std::stoi(data[2]));
+            motorData[index * 2 + 1].motorTemp = ad2Temperature(std::stod(data[3]));
+        }
+        else if (startWith(revData, "C="))
+        {
+            // encoder position data
+            revData.erase(0, 2);
+            data = split(revData, ':');
+            motorData[index * 2 + 0].encoderPos = std::stoi(data[0]);
+            motorData[index * 2 + 1].encoderPos = std::stoi(data[1]);
+            if (index == 2)
             {
-                // A/D data, here 3,4 will be motor temperature sensor
-                revData.erase(0, 3);
-                data = split(revData, ':');
-                motorData[index * 2 + 0].motorTemp = ad2Temperature(std::stoi(data[2]));
-                motorData[index * 2 + 1].motorTemp = ad2Temperature(std::stod(data[3]));
+                flipArmMotor[0].encoderPos = motorData[4].encoderPos;
+                flipArmMotor[1].encoderPos = motorData[5].encoderPos;
+                getFrontFlipAngle();
             }
-            else if (startWith(revData, "C="))
+            else if (index == 3)
             {
-                // encoder position data
-                revData.erase(0, 2);
-                data = split(revData, ':');
-                motorData[index * 2 + 0].encoderPos = std::stoi(data[0]);
-                motorData[index * 2 + 1].encoderPos = std::stoi(data[1]);
-                if (index == 2)
-                {
-                    flipArmMotor[0].encoderPos = motorData[4].encoderPos;
-                    flipArmMotor[1].encoderPos = motorData[5].encoderPos;
-                    getFrontFlipAngle();
-                }
-                else if (index == 3)
-                {
-                    flipArmMotor[2].encoderPos = motorData[6].encoderPos;
-                    flipArmMotor[3].encoderPos = motorData[7].encoderPos;
-                    getRearFlipAngle();
-                }
+                flipArmMotor[2].encoderPos = motorData[6].encoderPos;
+                flipArmMotor[3].encoderPos = motorData[7].encoderPos;
+                getRearFlipAngle();
             }
-            else if (startWith(revData, "P="))
-            {
-                // output PWM value, 0 ~ 1000
-                revData.erase(0, 2);
-                data = split(revData, ':');
-                motorData[index * 2 + 0].motorPower = std::stoi(data[0]);
-                motorData[index * 2 + 1].motorPower = std::stoi(data[1]);
-            }
-            else if (startWith(revData, "S="))
-            {
-                // encoder velocity data RPM
-                revData.erase(0, 2);
-                data = split(revData, ':');
-                motorData[index * 2 + 0].encoderSpeed = std::stoi(data[0]);
-                motorData[index * 2 + 1].encoderSpeed = std::stoi(data[1]);
-            }
-            else if (startWith(revData, "T="))
-            {
-                // motor driver board temperature
-                revData = revData.erase(0, 2);
-                data = split(revData, ':');
-                motorBoardData[index].ch1Temp = std::stoi(data[0]);
-                motorBoardData[index].ch2Temp = std::stoi(data[1]);
-            }
-            else if (startWith(revData, "V="))
-            {
-                // voltage data
-                revData = revData.erase(0, 2);
-                data = split(revData, ':');
-                motorBoardData[index].drvVoltage = std::stod(data[0]) / 10;
-                motorBoardData[index].motVoltage = std::stod(data[1]) / 10;
-                motorBoardData[index].reg5Voltage = std::stod(data[2]) / 1000;
-            }
-            else if (startWith(revData, "CR="))
-            {
-                // here is the encoder relative difference reading,
-                // very useful to estimate the encoder/motor traveling distance
-            }
-            else if (startWith(revData, "FF="))
-            {
-                // driver board state
-                revData = revData.erase(0, 3);
-                motorBoardData[index].driverState = std::stoi(revData);
-            }
+        }
+        else if (startWith(revData, "P="))
+        {
+            // output PWM value, 0 ~ 1000
+            revData.erase(0, 2);
+            data = split(revData, ':');
+            motorData[index * 2 + 0].motorPower = std::stoi(data[0]);
+            motorData[index * 2 + 1].motorPower = std::stoi(data[1]);
+        }
+        else if (startWith(revData, "S="))
+        {
+            // encoder velocity data RPM
+            revData.erase(0, 2);
+            data = split(revData, ':');
+            motorData[index * 2 + 0].encoderSpeed = std::stoi(data[0]);
+            motorData[index * 2 + 1].encoderSpeed = std::stoi(data[1]);
+        }
+        else if (startWith(revData, "T="))
+        {
+            // motor driver board temperature
+            revData = revData.erase(0, 2);
+            data = split(revData, ':');
+            motorBoardData[index].ch1Temp = std::stoi(data[0]);
+            motorBoardData[index].ch2Temp = std::stoi(data[1]);
+        }
+        else if (startWith(revData, "V="))
+        {
+            // voltage data
+            revData = revData.erase(0, 2);
+            data = split(revData, ':');
+            motorBoardData[index].drvVoltage = std::stod(data[0]) / 10;
+            motorBoardData[index].motVoltage = std::stod(data[1]) / 10;
+            motorBoardData[index].reg5Voltage = std::stod(data[2]) / 1000;
+        }
+        else if (startWith(revData, "CR="))
+        {
+            // here is the encoder relative difference reading,
+            // very useful to estimate the encoder/motor traveling distance
+        }
+        else if (startWith(revData, "FF="))
+        {
+            // driver board state
+            revData = revData.erase(0, 3);
+            motorBoardData[index].driverState = std::stoi(revData);
+        }
 
         //        if (index == 0)
         //        {
@@ -694,8 +703,13 @@ void Nodes::dealWithPackage(std::string revData, int len)
         //         //            }
         // }
         //     //publish sensor here
-            publisherMotorData(motorData, 8);
-            publisherMotorBoardInfoArray(motorBoardData, 4);
+        publisherMotorData(motorData, 8);
+        publisherMotorBoardInfoArray(motorBoardData, 4);
     }
-} // namespace jaguar
+}
+
+
+
+
+
 } // namespace jaguar_ns

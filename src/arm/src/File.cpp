@@ -6,14 +6,20 @@ File::File()
 {
     arryFilperSize = 4;
     arryArmSize = 7;
-    filePath = "ROS_WS/config.txt";
+    filePath = "ROS_WS/configArm.txt";
 
     for (int i = 0; i < arryFilperSize; i++)
         flipers_array[i] = 0;
 
     for (int i = 0; i < arryArmSize; i++)
         arm_array[i] = 0;
-    read();
+
+    if(!std::ifstream(filePath).good()){
+        write();
+    }else{
+       read();  
+    }
+   
 }
 
 void File::read()
@@ -34,8 +40,8 @@ void File::read()
         }
         myfile.close();
     }
-    // else
-    //     print("Unable to open file") ;
+    else
+        print("Unable to open file") ;
 }
 void File::setValue(std::vector<std::string> data, int index)
 {
@@ -59,33 +65,31 @@ void File::setValue(std::vector<std::string> data, int index)
 
 void File::write()
 {
-    std::ofstream oMyfile(filePath);
-    if (oMyfile.is_open())
-    {
+  std::ofstream myfile;
+  myfile.open (filePath);
+  
         for (int i = 0; i < arryFilperSize; i++)
         {
-            oMyfile << toString(flipers_array[i]);
+            myfile << toString(flipers_array[i]);
             if (i != (arryFilperSize - 1))
             {
-                oMyfile << ",";
+                myfile << ",";
             }
             else
             {
-                oMyfile << ":";
+                myfile << ":";
             }
         }
         for (int i = 0; i < arryArmSize; i++)
         {
-            oMyfile << toString(arm_array[i]);
+            myfile << toString(arm_array[i]);
             if (i != (arryArmSize - 1))
             {
-                oMyfile << ",";
+                myfile << ",";
             }
         }
-        oMyfile.close();
-    }
-    else
-        print("Unable to open file");
+        myfile.close();
+
 }
 
 void File::testPrint()
@@ -107,6 +111,7 @@ void File::setFlipers(double value, int i)
 
     write();
 }
+
 void File::setArm(double value, int i)
 {
     if (i >= 0 && i < arryArmSize)
@@ -132,4 +137,6 @@ double File::getArm(int i)
 
 File::~File()
 {
+    delete s_instance;
+    print("File::~File()");
 }
