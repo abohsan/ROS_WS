@@ -20,7 +20,7 @@ void Motor::move(int pwms) {
   ledcWrite(channel, pwms);
 }
 
-void Motor::Direction(bool b, bool f) {
-    digitalWrite(f_dir,  b);
-    digitalWrite(b_dir, f);
+void Motor::Direction( bool dir) {
+    digitalWrite(f_dir,  dir);
+    digitalWrite(b_dir, !dir);
 }

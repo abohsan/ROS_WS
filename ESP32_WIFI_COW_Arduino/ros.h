@@ -6,7 +6,9 @@
 
 
 #define PWMRANGE 254
-#define PWM_MIN 0
+#define PWM_MIN 50
+
+
 
 float mapPwm(float x, float out_min, float out_max);
 void stopRobot();
@@ -37,20 +39,14 @@ void onTwist(const geometry_msgs::Twist &msg) {
     return;
   }
 
-  // Cap values at [-1 .. 1]
-  float x = max(min(msg.linear.x, 1.0f), -1.0f);
-  float z = max(min(msg.angular.z, 1.0f), -1.0f);
-
-  // Calculate the intensity of left and right wheels. Simple version.
-  // Taken from https://hackernoon.com/unicycle-to-differential-drive-courseras-control-of-mobile-robots-with-ros-and-rosbots-part-2-6d27d15f2010#1e59
-  float l = (msg.linear.x - msg.angular.z) / 2;
-  float r = (msg.linear.x + msg.angular.z) / 2;
-
-  // Then map those values to PWM intensities. PWMRANGE = full speed, while PWM_MIN = the minimal amount of power at which the motors begin moving.
-  uint16_t lPwm = mapPwm(fabs(l), PWM_MIN, PWMRANGE);
-  uint16_t rPwm = mapPwm(fabs(r), PWM_MIN, PWMRANGE);
-  myRobot.setDir(l < 0, l > 0, r < 0, r > 0 );
-  myRobot.movee(rPwm, lPwm );
+    float l = (msg.linear.x - msg.angular.z) / 2;
+    float r = (msg.linear.x + msg.angular.z) / 2;
+    uint16_t lPwm = mapPwm(fabs(l), PWM_MIN, PWMRANGE);
+    uint16_t rPwm = mapPwm(fabs(r), PWM_MIN, PWMRANGE);
+    if(lPwm == PWM_MIN ) lPwm = 0;
+    if(rPwm == PWM_MIN ) rPwm = 0;
+    myRobot.setDir( r > 0 , l > 0 );
+    myRobot.movee(rPwm, lPwm );
 }
 
 void ros_setup(IPAddress server) {
@@ -65,7 +61,7 @@ bool rosConnected()
   if (_connected != connected)
   {
     _connected = connected;
-    Serial.println(connected ? "ROS connected" : "ROS disconnected");
+//    Serial.println(connected ? "ROS connected" : "ROS disconnected");
   }
   return connected;
 }
@@ -77,6 +73,6 @@ float mapPwm(float x, float out_min, float out_max)
 
 void stopRobot()
 {
-  myRobot.setDir(0, 0, 0, 0);
+  myRobot.setDir(0, 0);
   myRobot.movee(0, 0);
 }

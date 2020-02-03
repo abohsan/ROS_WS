@@ -3,10 +3,10 @@
 
   <xacro:property name="link_00_name" value="base_link" />
   <xacro:property name="link_01_name" value="base_arm" />
-  <xacro:property name="link_02_name" value="wheel_front_left" />
-  <xacro:property name="link_03_name" value="wheel_front_right" />
-  <xacro:property name="link_04_name" value="wheel_back_right" />
-  <xacro:property name="link_05_name" value="wheel_back_left" />
+  <xacro:property name="link_02_name" value="wheel_left" />
+  <xacro:property name="link_03_name" value="wheel_right" />
+  <!-- <xacro:property name="link_04_name" value="wheel_back_right" />
+  <xacro:property name="link_05_name" value="wheel_back_left" /> -->
   <xacro:property name="link_06_name" value="arm_1" />
   <xacro:property name="link_07_name" value="arm_2" />
   <xacro:property name="link_08_name" value="arm_3" />

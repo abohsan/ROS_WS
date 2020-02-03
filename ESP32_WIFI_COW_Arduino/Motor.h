@@ -6,7 +6,7 @@ class Motor {
     Motor();
     Motor( int ,int,int, int , int , int, int );
     void move(int);
-    void Direction(bool, bool);
+    void Direction(bool);
   private:
     int b_dir;
     int f_dir;

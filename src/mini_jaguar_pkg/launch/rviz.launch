@@ -1,23 +1,22 @@
 <launch>
 
-	<node name="static_transform_publisher" type="static_transform_publisher" pkg="tf" output="screen" args="0 0 0 0 0 0  odom base_link 100" />
-	<node name="static_transform_publisher2" type="static_transform_publisher" pkg="tf" output="screen" args="0 0 0 0 0 0 base_link  laser 100" />
-  	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find mini_jaguar_pkg)/urdf/mini.xacro'"/>
-
+  <node name="static_transform_publisher1" type="static_transform_publisher" pkg="tf" output="screen" args="0 0 0 0 0 0 map camera_odom_frame 100" />
+	<node name="static_transform_publisher3" type="static_transform_publisher" pkg="tf" output="screen" args="-0.165 0 0 0 0 0 camera_pose_frame base_link 100" />
+  <node name="static_transform_publisher5" type="static_transform_publisher" pkg="tf" output="screen" args="0 0 0 3.14 0 0 camera_pose_frame  laser 100" />
+  
+  <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find mini_jaguar_pkg)/urdf/mini.xacro'"/>
+	
   <!-- Combine joint values -->
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
 
   <!-- Show in Rviz   -->
   <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mini_jaguar_pkg)/launch/config.rviz" />
+  <!-- send joint values -->
+   <!-- <node name="state_publisher" pkg="mini_jaguar_pkg" type="state_publisher"></node>   -->
 
   <!-- send joint values -->
- <!-- <node name="state_publisher" pkg="mini_jaguar_pkg" type="state_publisher"></node>  -->
-
-
-
-   <!-- send joint values -->
   <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
-    <param name="use_gui" value="True"/>
-  </node>
+    <param name="use_gui" value="false"/>
+  </node> 
 
 </launch>
