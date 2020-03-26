@@ -5,12 +5,15 @@
 
 const char* ssid     = "Jaguar";
 const char* password = "Crawlerx01";
+//const char* ssid     = "arc-demeter-streaming";
+//const char* password = "eml-4840";
 
 // run the following command to start the TCP connection
 // rosrun rosserial_python serial_node.py tcp
 
 
 IPAddress server(10, 0, 0, 203);
+//IPAddress server(192, 168, 1, 3);
 
 // OTHER pins
 

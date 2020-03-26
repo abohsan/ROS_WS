@@ -5,7 +5,7 @@
            
    <m_joint name="${link_00_name}__${link_02_name}" type="revolute"
            axis_xyz="0 1 0"
-           origin_rpy="0 0 0" origin_xyz="0 0.206 0.13"
+           origin_rpy="0 0 0" origin_xyz="0 0.215 0.13"
            parent="${link_00_name}" child="${link_02_name}"
            limit_e="1000" limit_l="0" limit_u="0" limit_v="0" />
          
@@ -20,7 +20,7 @@
 
     <m_joint name="${link_00_name}__${link_03_name}" type="revolute"
            axis_xyz="0 1 0"
-           origin_rpy="0 0 3.14" origin_xyz="0 -0.206 0.13"
+           origin_rpy="0 0 3.14" origin_xyz="0 -0.215 0.13"
            parent="${link_00_name}" child="${link_03_name}"
            limit_e="1000" limit_l="0" limit_u="0" limit_v="0" 
            />

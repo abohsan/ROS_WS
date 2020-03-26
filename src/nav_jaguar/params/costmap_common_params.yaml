@@ -9,9 +9,11 @@ raytrace_range: 3.0
 publish_voxel_map: false
 transform_tolerance: 0.5
 meter_scoring: true
-
-footprint: [[-0.127, -0.127], [-0.127, 0.127], [0.127, 0.127], [0.127, -0.127]]
-footprint_padding: 0.0
+# mini_jaguar
+# footprint: [[-0.127, -0.127], [-0.127, 0.127], [0.127, 0.127], [0.127, -0.127]]
+# jaguar
+footprint: [[-0.58, -0.37], [-0.58, 0.37], [0.58, 0.37], [0.58, -0.37]]
+footprint_padding: 0.1
 
 plugins:
 - {name: obstacles_layer, type: "costmap_2d::ObstacleLayer"}

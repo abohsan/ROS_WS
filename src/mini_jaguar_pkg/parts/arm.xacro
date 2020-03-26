@@ -1,12 +1,12 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
 
-  <m_joint name="${link_00_name}__${link_01_name}" type="revolute"
+<m_joint name="${link_00_name}__${link_01_name}" type="revolute"
            axis_xyz="0 0 1"
-           origin_rpy="0 0 0" origin_xyz="0.13 0 0.27"
+           origin_rpy="0 0 0" origin_xyz="0.13 0 0.29"
            parent="${link_00_name}" child="${link_01_name}"
            limit_e="1000" limit_l="-1.5708" limit_u="1.5708" limit_v="0.5" />
-           
+            
   <m_link_mesh name="${link_01_name}"
               origin_rpy="0 0 0" origin_xyz="0 0 0"
               mass="157.633"
@@ -14,11 +14,11 @@
               iyy="13.235" iyz="0"
               izz="9.655"
               meshfile="package://mini_jaguar_pkg/meshes/Arm_Base_scaled.dae"
-              meshscale="1 1 1" /> 
+              meshscale="1 1 1" />  
 
   <m_joint name="${link_01_name}__${link_06_name}" type="revolute"
            axis_xyz="0 1 0"
-           origin_rpy="0 0.05 0" origin_xyz="0.1 0.045 0.12"
+           origin_rpy="0 0.05 0" origin_xyz="0.1 0.039 0.12"
            parent="${link_01_name}" child="${link_06_name}"
            limit_e="1000" limit_l="0" limit_u="3.14" limit_v="0.5" />
            
@@ -29,11 +29,11 @@
               iyy="13.235" iyz="0"
               izz="9.655"
               meshfile="package://mini_jaguar_pkg/meshes/Arm_1_scaled.dae"
-              meshscale="1 1 1" /> 
+              meshscale="1 0.95 1" /> 
 
   <m_joint name="${link_06_name}__${link_07_name}" type="revolute"
            axis_xyz="0 1 0"
-           origin_rpy="0 0 3.14" origin_xyz="-0.46 -0.1335 0"
+           origin_rpy="0 0 3.14" origin_xyz="-0.46 -0.1275 0"
            parent="${link_06_name}" child="${link_07_name}"
            limit_e="1000" limit_l="0" limit_u="3.14" limit_v="0.5" />
            
@@ -48,9 +48,9 @@
  
   <m_joint name="${link_07_name}__${link_08_name}" type="revolute"
            axis_xyz="0 1 0"
-           origin_rpy="0 0 0" origin_xyz="-0.43 -0.036 0.14"
+           origin_rpy="0 0 0" origin_xyz="-0.43 -0.044 0.14"
            parent="${link_07_name}" child="${link_08_name}"
-           limit_e="1000" limit_l="-1" limit_u="3.14" limit_v="0.5" />
+           limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
            
   <m_link_mesh name="${link_08_name}"
               origin_rpy="0 0 3.14" origin_xyz="0 0 0"
@@ -60,7 +60,7 @@
               izz="9.655"
               meshfile="package://mini_jaguar_pkg/meshes/Arm_3_scaled.dae"
               meshscale="1 1 1" /> 
-
+ 
   <m_joint name="${link_08_name}__${link_09_name}" type="revolute"
            axis_xyz="1 0 0"
            origin_rpy="0 -0.18 3.14" origin_xyz="-0.08 -0.0346 0.014"
@@ -74,34 +74,7 @@
               iyy="13.235" iyz="0"
               izz="9.655"
               meshfile="package://mini_jaguar_pkg/meshes/Arm_4_scaled.dae"
-              meshscale="1 1 1" /> 
-<!-- 
-  <m_joint name="${link_09_name}__${link_10_name}" type="revolute"
-           axis_xyz="1 0 0"
-           origin_rpy="0 0 0" origin_xyz="0 0.018 0.0"
-           parent="${link_09_name}" child="${link_10_name}"
-           limit_e="1000" limit_l="0" limit_u="0.32" limit_v="0.5" />
-           
-   <m_link_box name="${link_10_name}" 
-              origin_rpy="0 0 0" origin_xyz="0 0 0.02"
-              mass="157.633"
-              ixx="13.235" ixy="0" ixz="0"
-              iyy="13.235" iyz="0"
-              izz="9.655"
-              size='0.02 0.005 0.05'/>  
+              meshscale="1 1.1 1" /> 
 
-  <m_joint name="${link_09_name}__${link_11_name}" type="revolute"
-           axis_xyz="1 0 0"
-           origin_rpy="0 0 3.14" origin_xyz="0 -0.018 0.0"
-           parent="${link_09_name}" child="${link_11_name}"
-           limit_e="1000" limit_l="0" limit_u="0.32" limit_v="0.5" />
-           
-   <m_link_box name="${link_11_name}" 
-              origin_rpy="0 0 0" origin_xyz="0 0 0.02"
-              mass="157.633"
-              ixx="13.235" ixy="0" ixz="0"
-              iyy="13.235" iyz="0"
-              izz="9.655"
-              size='0.02 0.005 0.05'/>   -->
 
 </robot>

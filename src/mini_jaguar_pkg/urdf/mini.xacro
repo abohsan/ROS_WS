@@ -8,9 +8,8 @@
 
   <xacro:include filename="$(find mini_jaguar_pkg)/parts/wheels.xacro" />
   <xacro:include filename="$(find mini_jaguar_pkg)/parts/fins.xacro" /> 
-   <xacro:include filename="$(find mini_jaguar_pkg)/parts/arm.xacro" />
- 
- 
+  <xacro:include filename="$(find mini_jaguar_pkg)/parts/arm.xacro" />
+  
   <!-- END - Include -->
  
   <m_link_mesh name="${link_00_name}"
@@ -20,7 +19,7 @@
               iyy="13.235" iyz="0"
               izz="9.655"
               meshfile="package://mini_jaguar_pkg/meshes/jaguar_base.dae"
-              meshscale="1 1 1" /> 
+              meshscale="1 1 1"/> 
 
   <!-- <link name='${link_00_name}'>
     <pose>0 0 0.1 0 0 0</pose>

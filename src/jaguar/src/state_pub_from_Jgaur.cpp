@@ -37,21 +37,19 @@ void joint_status::flipers_sub_Callback(const jaguar::FlipMotor::ConstPtr &msg)
 
     joint_state.name.resize(15);
     joint_state.position.resize(15);
-    joint_state.name[0] = "base_link__link_01";
-    joint_state.name[1] = "base_link__link_02";
-    joint_state.name[2] = "base_link__link_03";
-    joint_state.name[3] = "base_link__link_04";
-    joint_state.name[4] = "base_link__link_05";
-    joint_state.name[5] = "base_link__link_12";
-    joint_state.name[6] = "base_link__link_13";
-    joint_state.name[7] = "base_link__link_14";
-    joint_state.name[8] = "base_link__link_15";
-    joint_state.name[9] = "link_01__link_06";
-    joint_state.name[10] = "link_06__link_07";
-    joint_state.name[11] = "link_07__link_08";
-    joint_state.name[12] = "link_08__link_09";
-    joint_state.name[13] = "link_09__link_10";
-    joint_state.name[14] = "link_09__link_11";
+    joint_state.name[0] = "base_link__base_arm";
+    joint_state.name[1] = "base_link__wheel_left";
+    joint_state.name[2] = "base_link__wheel_right";
+    joint_state.name[3] = "base_link__fliper_front_left";
+    joint_state.name[4] = "base_link__fliper_back_left";
+    joint_state.name[5] = "base_link__fliper_front_right";
+    joint_state.name[6] = "base_link__fliper_back_right";
+    joint_state.name[7] = "base_arm__arm_1";
+    joint_state.name[8] = "arm_1__arm_2";
+    joint_state.name[9] = "arm_2__arm_3";
+    joint_state.name[10] = "arm_3__arm_4";
+    joint_state.name[11] = "arm_4__griper_1";
+    joint_state.name[12] = "arm_4__griper_2";
         
         
     joint_state.header.stamp = ros::Time::now();
@@ -68,8 +66,6 @@ void joint_status::flipers_sub_Callback(const jaguar::FlipMotor::ConstPtr &msg)
     joint_state.position[10] = 0;
     joint_state.position[11] = 0;
     joint_state.position[12] = 0;
-    joint_state.position[13] = 0;
-    joint_state.position[14] = 0;
 
     joint_pub.publish(joint_state);
 }
