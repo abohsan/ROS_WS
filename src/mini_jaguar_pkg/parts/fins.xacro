@@ -29,7 +29,7 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/flipper.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/flipper.dae"
               meshscale="1 1 1" /> 
 
    <m_joint name="${link_00_name}__${link_13_name}" type="revolute"
@@ -44,12 +44,8 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/flipper.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/flipper.dae"
               meshscale="1 1 1" /> 
-
-
-
-
 
    <m_joint name="${link_00_name}__${link_14_name}" type="revolute"
            axis_xyz="0 1 0"
@@ -63,7 +59,7 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/flipper.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/flipper.dae"
               meshscale="1 1 1" /> 
 
   <m_joint name="${link_00_name}__${link_15_name}" type="revolute"
@@ -78,7 +74,6 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/flipper.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/flipper.dae"
               meshscale="1 1 1" />    
-
 </robot>

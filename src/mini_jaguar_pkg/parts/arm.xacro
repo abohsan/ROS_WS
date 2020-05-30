@@ -13,7 +13,7 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/Arm_Base_scaled.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/Arm_Base_scaled.dae"
               meshscale="1 1 1" />  
 
   <m_joint name="${link_01_name}__${link_06_name}" type="revolute"
@@ -28,7 +28,7 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/Arm_1_scaled.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/Arm_1_scaled.dae"
               meshscale="1 0.95 1" /> 
 
   <m_joint name="${link_06_name}__${link_07_name}" type="revolute"
@@ -43,14 +43,14 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/Arm_2_scaled.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/Arm_2_scaled.dae"
               meshscale="1 1 1" /> 
  
   <m_joint name="${link_07_name}__${link_08_name}" type="revolute"
            axis_xyz="0 1 0"
            origin_rpy="0 0 0" origin_xyz="-0.43 -0.044 0.14"
            parent="${link_07_name}" child="${link_08_name}"
-           limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
+           limit_e="1000" limit_l="0" limit_u="0" limit_v="0" />
            
   <m_link_mesh name="${link_08_name}"
               origin_rpy="0 0 3.14" origin_xyz="0 0 0"
@@ -58,7 +58,7 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/Arm_3_scaled.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/Arm_3_scaled.dae"
               meshscale="1 1 1" /> 
  
   <m_joint name="${link_08_name}__${link_09_name}" type="revolute"
@@ -73,7 +73,7 @@
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/Arm_4_scaled.dae"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/Arm_4_scaled.dae"
               meshscale="1 1.1 1" /> 
 
 

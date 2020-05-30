@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<robot>
+
+
+
+  <gazebo>
+    <plugin name="skid_steer_drive_controller" filename="libgazebo_ros_skid_steer_drive.so">
+      <updateRate>10.0</updateRate>
+      <robotNamespace>/</robotNamespace>
+      <leftFrontJoint>${link_00_name}__${link_02_name}</leftFrontJoint>
+      <rightFrontJoint>${link_00_name}__${link_03_name}</rightFrontJoint>
+      <leftRearJoint>${link_00_name}__${link_05_name} </leftRearJoint>
+      <rightRearJoint>${link_00_name}__${link_04_name}</rightRearJoint>
+      <wheelSeparation>1</wheelSeparation>
+      <wheelDiameter>0.4</wheelDiameter>
+      <robotBaseFrame>base_link</robotBaseFrame>
+      <torque>200</torque>
+      <topicName>cmd_vel</topicName>
+      <broadcastTF>true</broadcastTF>
+    </plugin>
+  </gazebo>
+
+
+    <!-- RpLidar A2 using GPU -->
+  <gazebo reference="laser">
+    <sensor type="gpu_ray" name="head_rplidar_sensor">
+      <pose>0 0 0.06 0 0 0</pose>
+      <visualize>false</visualize>
+      <update_rate>40</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>720</samples>
+            <resolution>1</resolution>
+            <min_angle>-2</min_angle>
+            <max_angle>2</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.2</min>
+          <max>12.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="gazebo_ros_head_rplidar_controller" filename="libgazebo_ros_gpu_laser.so">
+        <topicName>scan</topicName>
+        <frameName>laser</frameName>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+</robot>

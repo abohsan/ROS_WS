@@ -1,9 +1,0 @@
-<launch>
-
-  <!--- Run gmapping -->
-  <include file="$(find nav_jaguar)/launch/include/gmapping.launch" />
-
-  <!--- Run Move Base -->
-  <include file="$(find nav_jaguar)/launch/include/move_base.launch" />
-
-</launch>

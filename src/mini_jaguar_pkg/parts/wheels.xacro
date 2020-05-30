@@ -1,67 +1,67 @@
 <?xml version="1.0" ?>
 <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+<xacro:property name="meshscaleX" value="2.5" />
+<xacro:property name="meshscaleY" value="2.5" />
+<xacro:property name="meshscaleZ" value="2.5" />
 
-
-           
-   <m_joint name="${link_00_name}__${link_02_name}" type="revolute"
+  <m_joint name="${link_00_name}__${link_02_name}" type="continuous"
            axis_xyz="0 1 0"
-           origin_rpy="0 0 0" origin_xyz="0 0.215 0.13"
+           origin_rpy="0 0 0" origin_xyz="0.27 0.24 0.12"
            parent="${link_00_name}" child="${link_02_name}"
-           limit_e="1000" limit_l="0" limit_u="0" limit_v="0" />
-         
+            limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5"
+
+              />
   <m_link_mesh name="${link_02_name}"
               origin_rpy="0 0 0" origin_xyz="0 0 0"
-              mass="157.633"
+              mass="15.633"
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/track.dae"
-              meshscale="1 1 1"/> 
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/wheel.dae"
+              meshscale="${meshscaleX} ${meshscaleY} ${meshscaleZ}"/> 
 
-    <m_joint name="${link_00_name}__${link_03_name}" type="revolute"
+    <m_joint name="${link_00_name}__${link_03_name}" type="continuous"
            axis_xyz="0 1 0"
-           origin_rpy="0 0 3.14" origin_xyz="0 -0.215 0.13"
+           origin_rpy="0 0 0" origin_xyz="0.27 -0.24 0.12"
            parent="${link_00_name}" child="${link_03_name}"
-           limit_e="1000" limit_l="0" limit_u="0" limit_v="0" 
-           />
-           <!-- limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5"  -->
+       limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
+           
     <m_link_mesh name="${link_03_name}"
                 origin_rpy="0 0 0" origin_xyz="0 0 0"
-                mass="157.633"
+                mass="15.633"
                 ixx="13.235" ixy="0" ixz="0"
                 iyy="13.235" iyz="0"
                 izz="9.655"
-                meshfile="package://mini_jaguar_pkg/meshes/track.dae"
-                meshscale="1 1 1" /> 
- <!--
-    <m_joint name="${link_00_name}__${link_04_name}" type="revolute"
+                meshfile="package://mini_jaguar_pkg/meshes/jaguar/wheel.dae"
+                meshscale="{meshscaleX} ${meshscaleY} ${meshscaleZ}" /> 
+
+    <m_joint name="${link_00_name}__${link_04_name}" type="continuous"
            axis_xyz="0 1 0"
-           origin_rpy="0 0 0" origin_xyz="-0.27 -0.23 0"
+           origin_rpy="0 0 0" origin_xyz="-0.27 -0.24 0.12"
            parent="${link_00_name}" child="${link_04_name}"
            limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
            
   <m_link_mesh name="${link_04_name}"
               origin_rpy="0 0 0" origin_xyz="0 0 0"
-              mass="157.633"
+              mass="15.633"
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/tyre.dae"
-              meshscale="1.7 1.7 1.7" /> 
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/wheel.dae"
+              meshscale="{meshscaleX} ${meshscaleY} ${meshscaleZ}" /> 
 
-      <m_joint name="${link_00_name}__${link_05_name}" type="revolute"
+      <m_joint name="${link_00_name}__${link_05_name}" type="continuous"
            axis_xyz="0 1 0"
-           origin_rpy="0 0 0" origin_xyz="-0.27 0.23 0"
+           origin_rpy="0 0 0" origin_xyz="-0.27 0.24 0.12"
            parent="${link_00_name}" child="${link_05_name}"
            limit_e="1000" limit_l="-3.14" limit_u="3.14" limit_v="0.5" />
            
   <m_link_mesh name="${link_05_name}" 
               origin_rpy="0 0 0" origin_xyz="0 0 0"
-              mass="157.633"
+              mass="15.633"
               ixx="13.235" ixy="0" ixz="0"
               iyy="13.235" iyz="0"
               izz="9.655"
-              meshfile="package://mini_jaguar_pkg/meshes/tyre.dae"
-              meshscale="1.7 1.7 1.7" />  -->
-  
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/wheel.dae"
+              meshscale="{meshscaleX} ${meshscaleY} ${meshscaleZ}" />  
 </robot>

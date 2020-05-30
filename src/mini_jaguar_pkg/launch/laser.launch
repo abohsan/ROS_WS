@@ -1,9 +1,0 @@
-<launch>
-<node name="static_transform_publisher1" type="static_transform_publisher" pkg="tf" output="screen" args="0 0 0 0 0 0 map camera_odom_frame 100" />
-<node name="static_transform_publisher5" type="static_transform_publisher" pkg="tf" output="screen" args="0 0 0 2.355 0 0 camera_pose_frame  laser 100" />
-
-
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find mini_jaguar_pkg)/launch/config.rviz" />
-
-
-</launch>

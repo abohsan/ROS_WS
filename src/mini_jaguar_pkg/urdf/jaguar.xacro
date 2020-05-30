@@ -1,0 +1,37 @@
+<?xml version="1.0" ?>
+<robot name="mrmg" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+ 
+  <xacro:include filename="$(find mini_jaguar_pkg)/urdf/robot_parameters.xacro" />
+  <xacro:include filename="$(find mini_jaguar_pkg)/urdf/links_joints.xacro" />
+  <!-- Begin - Include parts-->
+  
+   <!-- <xacro:include filename="$(find mini_jaguar_pkg)/parts/tankWheel.xacro" />  -->
+  <!-- <xacro:include filename="$(find mini_jaguar_pkg)/parts/fins.xacro" />   -->
+  <xacro:include filename="$(find mini_jaguar_pkg)/parts/wheels.xacro" /> 
+  <!-- <xacro:include filename="$(find mini_jaguar_pkg)/parts/arm.xacro" /> -->
+
+  <!-- <xacro:include filename="$(find mini_jaguar_pkg)/parts/velodyne.xacro" /> -->
+
+  <xacro:include filename="$(find mini_jaguar_pkg)/parts/lidar.xacro" />
+
+  <xacro:include filename="$(find mini_jaguar_pkg)/parts/jaguar.gazebo" /> 
+  
+  <!-- END - Include parts-->
+
+  <link name="${dummy_link}" />
+  <joint name="base_link_to_chassis" type="fixed">
+    <parent link="${dummy_link}"/>
+    <child link="chassis"/>
+  </joint>
+
+  <m_link_mesh name="${link_00_name}"
+              origin_rpy="0 0 0" origin_xyz="0 0 0.19"
+              mass="157.633"
+              ixx="13.235" ixy="0" ixz="0"
+              iyy="13.235" iyz="0"
+              izz="9.655"
+              meshfile="package://mini_jaguar_pkg/meshes/jaguar/jaguar_base.dae"
+              meshscale="1 1 1"/> 
+
+</robot>
